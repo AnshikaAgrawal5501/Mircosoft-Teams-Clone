@@ -1,0 +1,64 @@
+.row {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+}
+
+#main {
+    background-color: black;
+    padding: 0;
+}
+
+#video-grid {
+    height: 100%;
+    width: 100%;
+}
+
+.fa-phone-alt {
+    transform: rotate(135deg);
+}
+
+video {
+    width: 400px;
+    height: 350px;
+}
+
+#aside {
+    /* background-color: rgb(199, 194, 194); */
+}
+
+.chat-area,
+.user-list {
+    height: 88.5vh;
+    padding: 0;
+}
+
+.form-group {
+    position: relative;
+}
+
+#send {
+    position: absolute;
+    top: 0;
+    right: 5px;
+    width: min-content;
+    color: #9fa4a8;
+}
+
+#send:hover {
+    color: #53616e;
+}
+
+#send:focus {
+    box-shadow: none !important;
+}
+
+#participants ul {
+    margin-top: 20px;
+    padding: 0;
+    list-style-type: none
+}
+
+#participants ul li {
+    padding: 5px 0 0;
+}

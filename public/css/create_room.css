@@ -1,0 +1,19 @@
+.form-group {
+    position: relative;
+}
+
+.share {
+    position: absolute;
+    top: 0;
+    right: 5px;
+    width: min-content;
+    color: #9fa4a8;
+}
+
+.share:hover {
+    color: #53616e;
+}
+
+.share:focus {
+    box-shadow: none !important;
+}

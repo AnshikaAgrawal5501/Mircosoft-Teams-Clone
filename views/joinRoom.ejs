@@ -1,0 +1,17 @@
+<%- include('partials/header') -%>
+
+    <form action="/joinRoom" method="POST">
+
+        <div class="row">
+            <div class="col">
+                <input type="text" class="form-control" id="roomId" placeholder="Enter room Id" name="roomId">
+            </div>
+            <div class="col">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+
+
+    </form>
+
+    <%- include('partials/footer') -%>
