@@ -19,18 +19,32 @@ let myVideoStream;
 
 
 
+
+
 let constraints = {
     audio: true,
     video: { width: 1440, height: 720 }
 };
 
-navigator.mediaDevices.getUserMedia(constraints)
-    .then(function(stream) {
-        myVideoStream = stream;
-        // console.log(myVideoStream)
-        const grid = videoGrid2;
-        addVideoStream(grid, stream, `white`);
-    });
+// navigator.mediaDevices.getUserMedia(constraints)
+//     .then(function(stream) {
+//         myVideoStream = stream;
+//         // console.log(myVideoStream)
+//         const grid = videoGrid2;
+//         addVideoStream(grid, stream, `white`);
+//     });
+
+peer.on('open', id => {
+    navigator.mediaDevices.getUserMedia(constraints)
+        .then(function(stream) {
+            myVideoStream = stream;
+            socket.emit('join-room', ROOM_ID, id);
+
+            const grid = videoGrid2;
+            addVideoStream(grid, stream, `white`);
+        });
+
+});
 
 
 peer.on('call', call => {
@@ -38,15 +52,15 @@ peer.on('call', call => {
         .then(function(stream) {
             call.answer(stream);
             const grid = videoGrid1;
-            call.on('stream', userVideoStream => {
-                console.log('call')
-                addVideoStream(grid, userVideoStream, `red`);
-            });
+            // call.on('stream', userVideoStream => {
+            //     console.log('call')
+            addVideoStream(grid, stream, `red`);
+            // });
             // addVideoStream(grid, stream, `red`);
         });
 });
 
-socket.on('user-connected', userId => {
+socket.on('user-connected', (userId) => {
     console.log(participants)
     const user = document.createElement('li');
     user.innerText = userId;
@@ -55,21 +69,19 @@ socket.on('user-connected', userId => {
         .then(function(stream) {
             connectToNewUser(userId, stream);
         });
-});
-
-peer.on('open', id => {
-    socket.emit('join-room', ROOM_ID, id);
+    // connectToNewUser(userId, stream);
 });
 
 
-peer.on('close', id => {
-    socket.emit('disconnect', ROOM_ID, id);
-});
+
+// peer.on('close', id => {
+//     socket.emit('disconnect', ROOM_ID, id);
+// });
 
 
-socket.on('user-disconnected', userId => {
-    peer;
-});
+// socket.on('user-disconnected', userId => {
+//     peer;
+// });
 
 
 
@@ -78,12 +90,12 @@ function connectToNewUser(userId, stream) {
     console.log(`new user ${userId} connected`);
     const call = peer.call(userId, stream);
     const grid = videoGrid1;
-    call.on('stream', userVideoStream => {
-        console.log('user')
-        addVideoStream(grid, userVideoStream, `green`);
-    }, function(err) {
-        console.log('Failed to get local stream', err);
-    });
+    // call.on('stream', userVideoStream => {
+    //     console.log('user')
+    //     addVideoStream(grid, userVideoStream, `green`);
+    // }, function(err) {
+    //     console.log('Failed to get local stream', err);
+    // });
     addVideoStream(grid, stream, `green`);
 }
 
@@ -97,12 +109,6 @@ function addVideoStream(grid, stream, color) {
     grid.append(video);
 }
 
-// function errorMsg(msg, error) {
-//     errorElement.innerHTML += '<p>' + msg + '</p>';
-//     if (typeof error !== 'undefined') {
-//         console.error(error);
-//     }
-// }
 
 msgInput.addEventListener('keydown', function(e) {
     if (e.keyCode === 13) {

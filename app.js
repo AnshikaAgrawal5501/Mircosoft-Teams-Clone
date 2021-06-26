@@ -58,6 +58,7 @@ io.on('connection', socket => {
     socket.on('join-room', (roomId, userId) => {
         // console.log(roomId);
         socket.join(roomId);
+        // console.log('me', roomId, userId, stream)
 
         socket.to(roomId).emit('user-connected', userId);
 
@@ -66,9 +67,9 @@ io.on('connection', socket => {
         });
     });
 
-    socket.on('disconnect', (roomId, userId) => {
-        socket.to(roomId).emit('user-disconnected', userId);
-    });
+    // socket.on('disconnect', (roomId, userId) => {
+    //     socket.to(roomId).emit('user-disconnected', userId);
+    // });
 
     // socket.on('disconnect', (userId) => {
     //     socket.emit('user-disconnected', userId)
