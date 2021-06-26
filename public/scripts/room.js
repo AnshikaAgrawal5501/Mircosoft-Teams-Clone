@@ -53,10 +53,10 @@ peer.on('call', call => {
         .then(function(stream) {
             call.answer(stream);
             const grid = videoGrid1;
-            // call.on('stream', userVideoStream => {
-            //     console.log('call')
-            addVideoStream(grid, stream, `red`);
-            // });
+            call.on('stream', userVideoStream => {
+                console.log('call')
+                addVideoStream(grid, stream, `red`);
+            });
             // addVideoStream(grid, stream, `red`);
         });
 });
@@ -91,13 +91,13 @@ function connectToNewUser(userId, stream) {
     console.log(`new user ${userId} connected`);
     const call = peer.call(userId, stream);
     const grid = videoGrid1;
-    // call.on('stream', userVideoStream => {
-    //     console.log('user')
-    //     addVideoStream(grid, userVideoStream, `green`);
-    // }, function(err) {
-    //     console.log('Failed to get local stream', err);
-    // });
-    addVideoStream(grid, stream, `green`);
+    call.on('stream', userVideoStream => {
+        console.log('user')
+        addVideoStream(grid, userVideoStream, `green`);
+    }, function(err) {
+        console.log('Failed to get local stream', err);
+    });
+    // addVideoStream(grid, stream, `green`);
 }
 
 function addVideoStream(grid, stream, color) {
