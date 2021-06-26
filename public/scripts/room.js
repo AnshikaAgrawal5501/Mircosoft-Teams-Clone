@@ -55,7 +55,7 @@ peer.on('call', call => {
             const grid = videoGrid1;
             call.on('stream', userVideoStream => {
                 console.log('call')
-                addVideoStream(grid, stream, `red`);
+                addVideoStream(grid, userVideoStream, `red`);
             });
             // addVideoStream(grid, stream, `red`);
         });
