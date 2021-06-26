@@ -19,7 +19,7 @@ const peer = new Peer();
 let myVideoStream;
 
 
-
+const callList = [];
 
 
 let constraints = {
@@ -53,11 +53,25 @@ peer.on('call', call => {
         .then(function(stream) {
             call.answer(stream);
             const grid = videoGrid1;
-            call.on('stream', userVideoStream => {
-                console.log('call')
-                addVideoStream(grid, userVideoStream, `red`);
-            });
+            // call.on('stream', userVideoStream => {
+            //     console.log('call')
+            //     addVideoStream(grid, userVideoStream, `red`);
+            // });
             // addVideoStream(grid, stream, `red`);
+
+            call.on('stream', userVideoStream => {
+                    console.log('call')
+                    if (!callList[call.peer]) {
+                        // add stream to video element
+                        // show on page
+                        addVideoStream(grid, userVideoStream, `red`); // this is my custom function for append video element to another element on the page
+                        // add call objec to global object
+                        callList[call.peer] = call;
+                    }
+                },
+                function(err) {
+                    console.log('Failed to get local stream', err);
+                });
         });
 });
 
@@ -91,13 +105,30 @@ function connectToNewUser(userId, stream) {
     console.log(`new user ${userId} connected`);
     const call = peer.call(userId, stream);
     const grid = videoGrid1;
+    console.log('abc')
+        // call.on('stream', userVideoStream => {
+        //     console.log('user')
+        //     addVideoStream(grid, userVideoStream, `green`);
+        // }, function(err) {
+        //     console.log('Failed to get local stream', err);
+        // });
+        // addVideoStream(grid, stream, `green`);
+
+
     call.on('stream', userVideoStream => {
-        console.log('user')
-        addVideoStream(grid, userVideoStream, `green`);
-    }, function(err) {
-        console.log('Failed to get local stream', err);
-    });
-    // addVideoStream(grid, stream, `green`);
+            console.log('user')
+            if (!callList[call.peer]) {
+                // add stream to video element
+                // show on page
+                addVideoStream(grid, userVideoStream, `green`); // this is my custom function for append video element to another element on the page
+                // add call objec to global object
+                callList[call.peer] = call;
+            }
+        },
+        function(err) {
+            console.log('Failed to get local stream', err);
+        });
+
 }
 
 function addVideoStream(grid, stream, color) {
