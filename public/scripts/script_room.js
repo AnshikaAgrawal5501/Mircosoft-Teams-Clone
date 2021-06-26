@@ -14,7 +14,7 @@ const peer = new Peer(undefined, {
     path: '/peerjs',
     host: 'https://fierce-lowlands-47586.herokuapp.com/',
     // port: '3000'
-    port: process.env.PORT
+    port: 3000
 });
 let myVideoStream;
 
