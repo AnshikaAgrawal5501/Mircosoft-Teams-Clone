@@ -10,11 +10,12 @@ const videoOpt = document.getElementById('videoOption')
 
 
 const socket = io('/');
-const peer = new Peer(undefined, {
-    path: '/peerjs',
-    host: '/',
-    port: 3000
-});
+// const peer = new Peer(undefined, {
+//     path: '/peerjs',
+//     host: '/',
+//     port: 3000
+// });
+const peer = new Peer();
 let myVideoStream;
 
 
