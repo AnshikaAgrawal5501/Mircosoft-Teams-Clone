@@ -59,8 +59,20 @@ io.on('connection', socket => {
         // console.log(roomId);
         socket.join(roomId);
 
-        socket.broadcast.to(roomId).emit('user-connected', userId);
+        socket.to(roomId).emit('user-connected', userId);
+
+        socket.on('message', message => {
+            io.to(roomId).emit('createMessage', message, userId);
+        });
     });
+
+    socket.on('disconnect', (roomId, userId) => {
+        socket.to(roomId).emit('user-disconnected', userId);
+    });
+
+    // socket.on('disconnect', (userId) => {
+    //     socket.emit('user-disconnected', userId)
+    // });
 });
 
 server.listen(process.env.PORT || port, function() {

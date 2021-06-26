@@ -1,5 +1,5 @@
-.row {
-    width: 100vw;
+.content {
+    /* width: 100vw; */
     height: 100vh;
     margin: 0;
 }
@@ -9,8 +9,17 @@
     padding: 0;
 }
 
-#video-grid {
-    height: 100%;
+#video-grid-1 {
+    height: 75vh;
+    width: 100%;
+}
+
+#video-grid-1 video {
+    width: 100%;
+}
+
+#video-grid-2 {
+    height: 17vh;
     width: 100%;
 }
 
@@ -19,17 +28,41 @@
 }
 
 video {
-    width: 400px;
-    height: 350px;
+    height: 100%;
 }
 
 #aside {
-    /* background-color: rgb(199, 194, 194); */
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.form-group {
+    position: relative;
+}
+
+.share {
+    position: absolute;
+    top: 0;
+    right: 5px;
+    width: min-content;
+    color: #9fa4a8;
+    background-color: white;
+    border-top-color: #ced4da;
+    border-bottom-color: #ced4da;
+}
+
+.share:hover {
+    color: #53616e;
+}
+
+.share:focus {
+    box-shadow: none !important;
 }
 
 .chat-area,
-.user-list {
-    height: 88.5vh;
+.user-list,
+.file-area {
+    height: 85vh;
     padding: 0;
 }
 
@@ -53,12 +86,59 @@ video {
     box-shadow: none !important;
 }
 
-#participants ul {
-    margin-top: 20px;
-    padding: 0;
-    list-style-type: none
+.nav-tabs {
+    padding-top: 5px;
 }
 
-#participants ul li {
+.nav-link {
+    padding: 5px 10px;
+    font-size: 15px;
+}
+
+.user-list ul,
+.chat-list ul,
+.file-list ul {
+    margin-top: 20px;
+    padding: 0;
+    list-style-type: none;
+    overflow-y: scroll;
+}
+
+.chat-list ul,
+.file-list ul {
+    height: 74vh;
+}
+
+.user-list ul li,
+.chat-list ul li,
+.file-list ul li {
     padding: 5px 0 0;
+}
+
+
+/* width */
+
+::-webkit-scrollbar {
+    width: 2px;
+}
+
+
+/* Track */
+
+ ::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+
+/* Handle */
+
+ ::-webkit-scrollbar-thumb {
+    background: rgb(173, 168, 168);
+}
+
+.navbar {
+    height: 8vh;
+    box-sizing: border-box;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }

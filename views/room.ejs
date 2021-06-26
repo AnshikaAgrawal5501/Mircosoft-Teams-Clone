@@ -26,7 +26,6 @@
 
     <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" data-auto-replace-svg="nest"></script>
 
-
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
     <script>
@@ -39,9 +38,10 @@
 
     <div id="errorMsg"></div>
 
-    <div class="row">
+    <div class="row content">
         <div class="col-10 d-flex flex-column justify-content-between" id="main">
-            <div id="video-grid"></div>
+            <div id="video-grid-1"></div>
+            <div id="video-grid-2"></div>
             <nav class="navbar navbar-expand-sm bg-dark navbar-dark ">
 
                 <div class="container justify-content-end">
@@ -49,24 +49,22 @@
 
 
                     <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" id="audioOption"><i class="fas fa-microphone"></i></a>
+                        <li class="nav-item" id="audioOption" onclick="muteUnmute()">
+                            <i class="fas fa-microphone nav-link"></i>
                         </li>
-                        <li class="nav-item" onclick="mute()">
-                            <a class="nav-link" href="#"><i class="fas fa-microphone-slash"></i></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" id="videoOption"><i class="fas fa-video"></i></a>
+                        <li class="nav-item" id="videoOption" onclick="playStop()">
+                            <i class="fas fa-video nav-link"></i>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="fas fa-video-slash"></i></a>
+                            <i class="fas fa-comment-dots nav-link"></i>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="fas fa-comment-dots"></i></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link btn btn-danger px-5" href="#">
-                                <div class="leave"><i class="fas fa-phone-alt"></i></div>
+                            <!-- <button class="nav-link btn btn-danger px-5 leave" onclick="leave()">
+                            <i class="fas fa-phone-alt"></i>
+                            </button> -->
+
+                            <a class="nav-link btn btn-danger px-5 leave" href="/">
+                                <i class="fas fa-phone-alt"></i>
                             </a>
                         </li>
                     </ul>
@@ -77,6 +75,14 @@
         </div>
 
         <div id="aside" class="col-2">
+
+            <div class="form-group">
+                <input type="text" class="form-control" id="roomId" value="<%= roomId %>">
+
+                <button type="button" class="btn share" data-toggle="modal" data-target="#myModal">
+                <i class="fas fa-share-alt"></i>
+              </button>
+            </div>
 
             <ul class="nav nav-tabs">
                 <li class="nav-item">
@@ -92,34 +98,78 @@
 
             <!-- Tab panes -->
             <div class="tab-content">
+
                 <div class="tab-pane active" id="chat">
                     <div class="d-flex flex-column justify-content-end chat-area">
 
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Type message" id="message">
+                        <div class="chat-list">
+                            <ul></ul>
+                        </div>
 
-                            <button type="button" class="btn" id="send">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Type message" id="messageInput">
+
+                            <button type="button" class="btn" id="send" onclick="sendMsg()">
                                 <i class="fas fa-share"></i>
                           </button>
                         </div>
                     </div>
                 </div>
+
                 <div class="tab-pane fade" id="participants">
                     <div class="d-flex user-list">
                         <ul></ul>
                     </div>
-
                 </div>
-                <div class="tab-pane fade" id="files">...</div>
+
+                <div class="tab-pane fade" id="files">
+                    <div class="d-flex flex-column justify-content-end file-area">
+
+                        <div class="file-list">
+                            <ul></ul>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="uploadFile" on>
+                                <label class="custom-file-label" for="uploadFile">Choose file</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>
 
     </div>
 
+    <!-- The Modal -->
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <div class="p-5">
+                        <div class="row">
+                            <div class="col-6">Room Id</div>
+                            <div class="col-6"><i class="far fa-copy" onclick="copyId()"></i></div>
+                            <div class="col-6">Url</div>
+                            <div class="col-6"><i class="far fa-copy" onclick="copyUrl()"></i></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 
     <script src="/scripts/script_room.js"></script>
+    <script src="/scripts/create_room.js"></script>
+
 </body>
 
 </html>
