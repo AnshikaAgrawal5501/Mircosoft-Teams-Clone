@@ -35,28 +35,45 @@ peer.on('open', id => {
             socket.emit('join-room', ROOM_ID, id, userName);
 
             const grid = videoGrid2;
-            addVideoStream(grid, stream, `white`);
+            addVideoStream(grid, myVideoStream, `white`);
         });
 });
 
 
-peer.on('call', call => {
-    navigator.mediaDevices.getUserMedia(constraints)
-        .then(function(stream) {
-            call.answer(stream);
-            const grid = videoGrid1;
+// peer.on('call', call => {
+//     navigator.mediaDevices.getUserMedia(constraints)
+//         .then(function(stream) {
+//             call.answer(stream);
+//             const grid = videoGrid1;
 
-            call.on('stream', userVideoStream => {
-                    console.log('call')
-                    if (!callList[call.peer]) {
-                        addVideoStream(grid, userVideoStream, `red`);
-                        callList[call.peer] = call;
-                    }
-                },
-                function(err) {
-                    console.log('Failed to get local stream', err);
-                });
+//             call.on('stream', userVideoStream => {
+//                     console.log('call')
+//                     if (!callList[call.peer]) {
+//                         addVideoStream(grid, userVideoStream, `red`);
+//                         callList[call.peer] = call;
+//                     }
+//                 },
+//                 function(err) {
+//                     console.log('Failed to get local stream', err);
+//                 });
+//         });
+// });
+
+peer.on('call', call => {
+    call.answer(myVideoStream);
+    const grid = videoGrid1;
+
+    call.on('stream', userVideoStream => {
+            console.log('call')
+            if (!callList[call.peer]) {
+                addVideoStream(grid, userVideoStream, `red`);
+                callList[call.peer] = call;
+            }
+        },
+        function(err) {
+            console.log('Failed to get local stream', err);
         });
+
 });
 
 socket.on('user-connected', (userId, userName) => {
@@ -67,11 +84,64 @@ socket.on('user-connected', (userId, userName) => {
     participants.appendChild(user);
 
 
-    navigator.mediaDevices.getUserMedia(constraints)
-        .then(function(stream) {
-            connectToNewUser(userId, stream);
-        });
+    connectToNewUser(userId, myVideoStream);
+
 });
+
+// navigator.mediaDevices.getUserMedia(constraints)
+//     .then(function(stream) {
+
+//         myVideoStream = stream;
+//         peer.on('open', id => {
+
+//             console.log('entered')
+
+//             let userName = prompt('Enter your name.');
+//             if (userName === null) {
+//                 userName = `Guest`;
+//             }
+
+//             socket.emit('join-room', ROOM_ID, id, userName);
+
+//             const grid = videoGrid2;
+//             addVideoStream(grid, myVideoStream, `white`);
+//         });
+
+//         peer.on('call', call => {
+//             call.answer(stream);
+//             const grid = videoGrid1;
+
+//             call.on('stream', userVideoStream => {
+//                     console.log('call')
+//                     if (!callList[call.peer]) {
+//                         addVideoStream(grid, userVideoStream, `red`);
+//                         callList[call.peer] = call;
+//                     }
+//                 },
+//                 function(err) {
+//                     console.log('Failed to get local stream', err);
+//                 });
+
+//         });
+//     });
+
+
+
+
+
+// socket.on('user-connected', (userId, userName) => {
+//     // console.log(participants)
+
+//     const user = document.createElement('li');
+//     user.innerText = `${userId} ----- ${userName}`;
+//     participants.appendChild(user);
+
+
+//     navigator.mediaDevices.getUserMedia(constraints)
+//         .then(function(stream) {
+//             connectToNewUser(userId, stream);
+//         });
+// });
 
 // document.querySelector('.leave').addEventListener('click', function() {
 //     // console.log('leave')
