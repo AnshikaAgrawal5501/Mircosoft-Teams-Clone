@@ -18,10 +18,16 @@ const callList = [];
 
 
 let constraints = {
-    audio: true,
-    video: { width: 1440, height: 720 }
-};
+    audio: {
+        echoCancellation: { exact: true },
+        googEchoCancellation: { exact: true },
+        googAutoGainControl: { exact: true },
+        googNoiseSuppression: { exact: true },
+    },
+    video: { width: 1440, height: 720 },
 
+};
+console.log(constraints);
 peer.on('open', id => {
 
     let userName = prompt('Enter your name.');
@@ -192,7 +198,9 @@ function connectToNewUser(userId, stream) {
 
 function addVideoStream(grid, stream, color) {
     const video = document.createElement('video');
+    // video.setAttribute('muted', 'muted');
     video.srcObject = stream;
+    video.volume = 0;
     video.style.border = `2px solid ${color}`;
     video.addEventListener('loadedmetadata', () => {
         video.play();
