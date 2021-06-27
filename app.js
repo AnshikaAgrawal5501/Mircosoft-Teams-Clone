@@ -55,21 +55,23 @@ app.get('/:roomId', function(req, res) {
 });
 
 io.on('connection', socket => {
-    socket.on('join-room', (roomId, userId) => {
+    socket.on('join-room', (roomId, userId, userName) => {
         // console.log(roomId);
         socket.join(roomId);
         // console.log('me', roomId, userId, stream)
 
-        socket.to(roomId).emit('user-connected', userId);
+        socket.to(roomId).emit('user-connected', userId, userName);
 
         socket.on('message', message => {
-            io.to(roomId).emit('createMessage', message, userId);
+            io.to(roomId).emit('createMessage', message, userId, userName);
         });
     });
 
-    // socket.on('disconnect', (roomId, userId) => {
-    //     socket.to(roomId).emit('user-disconnected', userId);
-    // });
+    socket.on('disconnect', (roomId, userId) => {
+        socket.leave(roomId);
+        console.log('disconnect')
+        socket.to(roomId).emit('user-disconnected', userId);
+    });
 
     // socket.on('disconnect', (userId) => {
     //     socket.emit('user-disconnected', userId)

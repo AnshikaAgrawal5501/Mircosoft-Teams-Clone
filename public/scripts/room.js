@@ -1,20 +1,15 @@
 const videoGrid1 = document.getElementById('video-grid-1');
 const videoGrid2 = document.getElementById('video-grid-2');
-// const errorElement = document.querySelector('#errorMsg');
 const participants = document.querySelector('#participants ul');
 const msgInput = document.getElementById('messageInput');
-const chat = document.querySelector('.chat-list ul')
+const chat = document.querySelector('.chat-list')
 
 const audioOpt = document.getElementById('audioOption')
 const videoOpt = document.getElementById('videoOption')
 
+const screenShare = document.querySelector('#screen-share i');
 
 const socket = io('/');
-// const peer = new Peer(undefined, {
-//     path: '/peerjs',
-//     host: '/',
-//     port: 3000
-// });
 const peer = new Peer();
 let myVideoStream;
 
@@ -27,24 +22,21 @@ let constraints = {
     video: { width: 1440, height: 720 }
 };
 
-// navigator.mediaDevices.getUserMedia(constraints)
-//     .then(function(stream) {
-//         myVideoStream = stream;
-//         // console.log(myVideoStream)
-//         const grid = videoGrid2;
-//         addVideoStream(grid, stream, `white`);
-//     });
-
 peer.on('open', id => {
+
+    let userName = prompt('Enter your name.');
+    if (userName === null) {
+        userName = `Guest`;
+    }
+
     navigator.mediaDevices.getUserMedia(constraints)
         .then(function(stream) {
             myVideoStream = stream;
-            socket.emit('join-room', ROOM_ID, id);
+            socket.emit('join-room', ROOM_ID, id, userName);
 
             const grid = videoGrid2;
             addVideoStream(grid, stream, `white`);
         });
-
 });
 
 
@@ -53,19 +45,11 @@ peer.on('call', call => {
         .then(function(stream) {
             call.answer(stream);
             const grid = videoGrid1;
-            // call.on('stream', userVideoStream => {
-            //     console.log('call')
-            //     addVideoStream(grid, userVideoStream, `red`);
-            // });
-            // addVideoStream(grid, stream, `red`);
 
             call.on('stream', userVideoStream => {
                     console.log('call')
                     if (!callList[call.peer]) {
-                        // add stream to video element
-                        // show on page
-                        addVideoStream(grid, userVideoStream, `red`); // this is my custom function for append video element to another element on the page
-                        // add call objec to global object
+                        addVideoStream(grid, userVideoStream, `red`);
                         callList[call.peer] = call;
                     }
                 },
@@ -75,28 +59,44 @@ peer.on('call', call => {
         });
 });
 
-socket.on('user-connected', (userId) => {
-    console.log(participants)
+socket.on('user-connected', (userId, userName) => {
+    // console.log(participants)
+
     const user = document.createElement('li');
-    user.innerText = userId;
+    user.innerText = `${userId} ----- ${userName}`;
     participants.appendChild(user);
+
+
     navigator.mediaDevices.getUserMedia(constraints)
         .then(function(stream) {
             connectToNewUser(userId, stream);
         });
-    // connectToNewUser(userId, stream);
+});
+
+// document.querySelector('.leave').addEventListener('click', function() {
+//     // console.log('leave')
+
+//     peer.on('close', id => {
+//         // peer.destroy(id => {
+//         console.log(id);
+//         socket.emit('disconnect', ROOM_ID, id);
+//         // });
+
+//     });
+// });
+
+peer.on('close', id => {
+    // peer.destroy()
+    socket.emit('disconnect', ROOM_ID, id);
 });
 
 
+socket.on('user-disconnected', userId => {
 
-// peer.on('close', id => {
-//     socket.emit('disconnect', ROOM_ID, id);
-// });
+    videoGrid1.removeChild(document.getElementsByName('video'));
 
-
-// socket.on('user-disconnected', userId => {
-//     peer;
-// });
+    console.log('user left')
+});
 
 
 
@@ -105,23 +105,12 @@ function connectToNewUser(userId, stream) {
     console.log(`new user ${userId} connected`);
     const call = peer.call(userId, stream);
     const grid = videoGrid1;
-    console.log('abc')
-        // call.on('stream', userVideoStream => {
-        //     console.log('user')
-        //     addVideoStream(grid, userVideoStream, `green`);
-        // }, function(err) {
-        //     console.log('Failed to get local stream', err);
-        // });
-        // addVideoStream(grid, stream, `green`);
 
 
     call.on('stream', userVideoStream => {
             console.log('user')
             if (!callList[call.peer]) {
-                // add stream to video element
-                // show on page
-                addVideoStream(grid, userVideoStream, `green`); // this is my custom function for append video element to another element on the page
-                // add call objec to global object
+                addVideoStream(grid, userVideoStream, `green`);
                 callList[call.peer] = call;
             }
         },
@@ -156,31 +145,51 @@ function sendMsg() {
     msgInput.value = '';
 }
 
-let users = [
-    { id: '', name: 'Me', color: 'pink' },
-    { id: '', name: 'user', color: 'green' }
-];
+let users = [];
 
-socket.on('createMessage', (msg, userId) => {
+socket.on('createMessage', (msg, userId, userName) => {
 
+    let msgColor;
+    let bgColor;
 
-    // let userName;
-    // let msgColor;
+    if (users.length == 0) {
+        let user = { id: userId, name: userName, color: 'white', bgColor: 'blue' };
+        users.push(user);
+        msgColor = user.color;
+        bgColor = user.bgColor;
+    } else if (users.length == 1 && users[0].id !== userId) {
+        let user = { id: userId, name: userName, color: 'black', bgColor: 'grey' };
+        users.push(user);
+        msgColor = user.color;
+        bgColor = user.bgColor;
+    } else {
+        if (users[0].id == userId) {
+            msgColor = users[0].color;
+            bgColor = users[0].bgColor;
+        } else {
+            msgColor = users[1].color;
+            bgColor = users[1].bgColor;
+        }
+    }
 
-    // if (users[0].id === '') {
-    //     users[0].id = userId;
-    //     userName = users[0].name;
-    //     msgColor = users[0].color;
-    // } else {
-    //     users[1].id = userId;
-    //     userName = users[1].name;
-    //     msgColor = users[1].color;
-    // }
+    const date = new Date();
+    const hour = date.getHours();
+    const min = date.getMinutes();
 
+    const message = document.createElement('div');
+    message.classList.add('chat-box');
+    message.style.backgroundColor = bgColor;
+    message.style.color = msgColor;
 
-    const message = document.createElement('li');
-    message.innerText = `${userId} - ${msg}`;
-    // message.style.backgroundColor = msgColor;
+    message.innerHTML = `
+    <div class='d-flex flex-row justify-content-between' style='font-size:10px;'>
+    <div>${userName}</div>
+    <div>${hour}:${min}</div>
+    </div>
+    <div class="message">
+    ${msg}
+    </div>`;
+
     chat.appendChild(message);
 });
 
@@ -234,3 +243,39 @@ const playStop = () => {
         setStopVideo()
     }
 }
+
+
+function stopSharing() {
+    videoGrid2.removeChild(videoGrid2.childNodes[1]);
+    screenShare.classList.remove('screen-share-active');
+}
+
+function screenSharing() {
+
+    screenShare.classList.add('screen-share-active');
+
+    navigator.mediaDevices.getDisplayMedia({ video: true })
+        .then(function(stream) {
+
+            addVideoStream(videoGrid2, stream, 'blue');
+
+            stream.getVideoTracks()[0].addEventListener('ended', () => {
+                stopSharing();
+            });
+        });
+}
+
+// function uploadFile() {
+
+// }
+
+// const fileInput = document.getElementById('uploadedFile');
+// fileInput.onchange = () => {
+//     const selectedFile = fileInput.files[0];
+//     console.log(selectedFile);
+// }
+
+var loadFile = function(event) {
+    var image = document.getElementById('output');
+    image.src = URL.createObjectURL(event.target.files[0]);
+};

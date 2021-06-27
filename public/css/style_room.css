@@ -31,6 +31,10 @@ video {
     height: 100%;
 }
 
+.screen-share-active {
+    color: rgba(255, 255, 255) !important;
+}
+
 #aside {
     padding-top: 10px;
     padding-bottom: 10px;
@@ -96,7 +100,6 @@ video {
 }
 
 .user-list ul,
-.chat-list ul,
 .file-list ul {
     margin-top: 20px;
     padding: 0;
@@ -104,13 +107,11 @@ video {
     overflow-y: scroll;
 }
 
-.chat-list ul,
 .file-list ul {
     height: 74vh;
 }
 
 .user-list ul li,
-.chat-list ul li,
 .file-list ul li {
     padding: 5px 0 0;
 }
@@ -141,4 +142,29 @@ video {
     box-sizing: border-box;
     padding-top: 10px;
     padding-bottom: 10px;
+}
+
+.chat-list,
+.file-list {
+    margin-top: 20px;
+    padding: 0;
+    overflow-y: scroll;
+    height: 74vh;
+}
+
+.chat-box {
+    margin-bottom: 5px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.message {
+    padding-top: 5px;
+    line-height: 1.2;
+    font-size: 15px;
+    word-break: break-all;
+}
+
+#output {
+    width: 100%;
 }
