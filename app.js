@@ -65,17 +65,16 @@ io.on('connection', socket => {
         socket.on('message', message => {
             io.to(roomId).emit('createMessage', message, userId, userName);
         });
-    });
 
-    socket.on('disconnect', (roomId, userId) => {
-        socket.leave(roomId);
-        console.log('disconnect')
-        socket.to(roomId).emit('user-disconnected', userId);
-    });
+        socket.on('screen-share', userId => {
+            socket.to(roomId).emit('screen-sharing', userId);
+        });
 
-    // socket.on('disconnect', (userId) => {
-    //     socket.emit('user-disconnected', userId)
-    // });
+        socket.on('disconnect', () => {
+            console.log(`disconnect`);
+            socket.to(roomId).emit('user-disconnected', userId, userName);
+        });
+    });
 });
 
 server.listen(process.env.PORT || port, function() {

@@ -12,9 +12,38 @@ const screenShare = document.querySelector('#screen-share i');
 const socket = io('/');
 const peer = new Peer();
 let myVideoStream;
-
+let counter = 0;
 
 const callList = [];
+
+const gridOfVideos = [{
+        height: '100%'
+    },
+    {
+        height: '50%'
+    },
+    {
+        height: '33.33%'
+    },
+    {
+        height: '50%'
+    },
+    {
+        height: '50%'
+    },
+    {
+        height: '50%'
+    },
+    {
+        height: '33.33%'
+    },
+    {
+        height: '33.33%'
+    },
+    {
+        height: '33.33%'
+    }
+];
 
 
 let constraints = {
@@ -27,7 +56,8 @@ let constraints = {
     video: { width: 1440, height: 720 },
 
 };
-console.log(constraints);
+
+
 peer.on('open', id => {
 
     let userName = prompt('Enter your name.');
@@ -161,17 +191,16 @@ socket.on('user-connected', (userId, userName) => {
 //     });
 // });
 
-peer.on('close', id => {
-    // peer.destroy()
-    socket.emit('disconnect', ROOM_ID, id);
-});
+// peer.on('close', id => {
+//     // peer.destroy()
+//     socket.emit('disconnect', ROOM_ID);
+//     socket.close();
+// });
 
 
-socket.on('user-disconnected', userId => {
-
-    videoGrid1.removeChild(document.getElementsByName('video'));
-
-    console.log('user left')
+socket.on('user-disconnected', (userId, userName) => {
+    console.log(`${userName} left`);
+    videoGrid1.removeChild(videoGrid1.childNodes[0]);
 });
 
 
@@ -194,7 +223,12 @@ function connectToNewUser(userId, stream) {
             console.log('Failed to get local stream', err);
         });
 
+    counter++;
+
 }
+
+
+
 
 function addVideoStream(grid, stream, color) {
     const video = document.createElement('video');
@@ -203,11 +237,16 @@ function addVideoStream(grid, stream, color) {
     if (grid === videoGrid2) {
         video.volume = 0;
     }
+
+
     video.style.border = `2px solid ${color}`;
+
     video.addEventListener('loadedmetadata', () => {
         video.play();
     })
     grid.append(video);
+
+
 }
 
 
@@ -324,6 +363,7 @@ const playStop = () => {
     }
 }
 
+let temp;
 
 function stopSharing() {
     videoGrid2.removeChild(videoGrid2.childNodes[1]);
@@ -337,13 +377,24 @@ function screenSharing() {
     navigator.mediaDevices.getDisplayMedia({ video: true })
         .then(function(stream) {
 
+            temp = stream;
+            console.log(stream);
+            socket.emit('screen-share', peer.id);
+
             addVideoStream(videoGrid2, stream, 'blue');
 
             stream.getVideoTracks()[0].addEventListener('ended', () => {
                 stopSharing();
+                connectToNewUser(peer.id, myVideoStream)
             });
         });
 }
+
+socket.on('screen-sharing', userId => {
+    console.log('sharing' + userId)
+    console.log(temp);
+    connectToNewUser(userId, temp)
+});
 
 // function uploadFile() {
 
@@ -359,3 +410,14 @@ var loadFile = function(event) {
     var image = document.getElementById('output');
     image.src = URL.createObjectURL(event.target.files[0]);
 };
+
+// setInterval(function() {
+
+//     if (counter !== undefined) {
+
+//         for (let i = 0; i < counter; i++) {
+//             // console.log(videoGrid1.childNodes[i]);
+//             videoGrid1.childNodes[i].style.height = gridOfVideos[counter - 1].height;
+//         }
+//     }
+// }, 100);
