@@ -200,15 +200,14 @@ function addVideoStream(grid, stream, color) {
     const video = document.createElement('video');
     // video.setAttribute('muted', 'muted');
     video.srcObject = stream;
+    if (grid === videoGrid2) {
+        video.volume = 0;
+    }
     video.style.border = `2px solid ${color}`;
     video.addEventListener('loadedmetadata', () => {
         video.play();
     })
     grid.append(video);
-
-    if (grid === videoGrid2) {
-        video.volume = 0;
-    }
 }
 
 
