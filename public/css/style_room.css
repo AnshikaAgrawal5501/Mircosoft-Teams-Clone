@@ -146,16 +146,29 @@ video {
 
 .chat-list,
 .file-list {
-    margin-top: 20px;
+    margin: 20px 0;
     padding: 0;
     overflow-y: scroll;
     height: 74vh;
 }
 
 .chat-box {
-    margin-bottom: 5px;
+    margin: 0 3px 5px;
     padding: 5px;
     border-radius: 5px;
+    width: 150px;
+}
+
+.start {
+    display: flex;
+    align-self: flex-start;
+    flex-direction: column;
+}
+
+.end {
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
 }
 
 .message {

@@ -1,6 +1,6 @@
 const videoGrid1 = document.getElementById('video-grid-1');
 const videoGrid2 = document.getElementById('video-grid-2');
-const participants = document.querySelector('#participants ul');
+const participants = document.querySelector('.user-list ul');
 const msgInput = document.getElementById('messageInput');
 const chat = document.querySelector('.chat-list')
 
@@ -12,38 +12,48 @@ const screenShare = document.querySelector('#screen-share i');
 const socket = io('/');
 const peer = new Peer();
 let myVideoStream;
-let counter = 0;
 
 const callList = [];
+const users = [];
 
 const gridOfVideos = [{
-        height: '100%'
+        height: '100%',
+        width: '100%'
     },
     {
-        height: '50%'
+        height: '50%',
+        width: '50%'
     },
     {
-        height: '33.33%'
+        height: '50%',
+        width: '50%'
     },
     {
-        height: '50%'
+        height: '50%',
+        width: '50%'
     },
     {
-        height: '50%'
+        height: '50%',
+        width: '33.33%'
     },
     {
-        height: '50%'
+        height: '50%',
+        width: '33.33%'
     },
     {
-        height: '33.33%'
+        height: '33.33%',
+        width: '33.33%'
     },
     {
-        height: '33.33%'
+        height: '33.33%',
+        width: '33.33%'
     },
     {
-        height: '33.33%'
+        height: '33.33%',
+        width: '33.33%'
     }
 ];
+
 
 
 let constraints = {
@@ -65,35 +75,21 @@ peer.on('open', id => {
         userName = `Guest`;
     }
 
+    users.push({ id: id, name: userName });
+
+    const list = document.createElement('li');
+    list.innerText = userName;
+    participants.appendChild(list);
+
     navigator.mediaDevices.getUserMedia(constraints)
         .then(function(stream) {
             myVideoStream = stream;
             socket.emit('join-room', ROOM_ID, id, userName);
 
             const grid = videoGrid2;
-            addVideoStream(grid, myVideoStream, `white`);
+            addVideoStream(grid, myVideoStream, `white`, id);
         });
 });
-
-
-// peer.on('call', call => {
-//     navigator.mediaDevices.getUserMedia(constraints)
-//         .then(function(stream) {
-//             call.answer(stream);
-//             const grid = videoGrid1;
-
-//             call.on('stream', userVideoStream => {
-//                     console.log('call')
-//                     if (!callList[call.peer]) {
-//                         addVideoStream(grid, userVideoStream, `red`);
-//                         callList[call.peer] = call;
-//                     }
-//                 },
-//                 function(err) {
-//                     console.log('Failed to get local stream', err);
-//                 });
-//         });
-// });
 
 peer.on('call', call => {
     call.answer(myVideoStream);
@@ -102,111 +98,27 @@ peer.on('call', call => {
     call.on('stream', userVideoStream => {
             console.log('call')
             if (!callList[call.peer]) {
-                addVideoStream(grid, userVideoStream, `red`);
+                console.log(call.peer);
+                addVideoStream(grid, userVideoStream, `red`, call.peer);
                 callList[call.peer] = call;
             }
         },
         function(err) {
             console.log('Failed to get local stream', err);
         });
-
 });
+
 
 socket.on('user-connected', (userId, userName) => {
-    // console.log(participants)
+    const list = document.createElement('li');
+    list.innerText = userName;
+    participants.appendChild(list);
 
-    const user = document.createElement('li');
-    user.innerText = `${userId} ----- ${userName}`;
-    participants.appendChild(user);
-
-
-    connectToNewUser(userId, myVideoStream);
+    connectToNewUser(userId, userName, myVideoStream);
 
 });
 
-// navigator.mediaDevices.getUserMedia(constraints)
-//     .then(function(stream) {
-
-//         myVideoStream = stream;
-//         peer.on('open', id => {
-
-//             console.log('entered')
-
-//             let userName = prompt('Enter your name.');
-//             if (userName === null) {
-//                 userName = `Guest`;
-//             }
-
-//             socket.emit('join-room', ROOM_ID, id, userName);
-
-//             const grid = videoGrid2;
-//             addVideoStream(grid, myVideoStream, `white`);
-//         });
-
-//         peer.on('call', call => {
-//             call.answer(stream);
-//             const grid = videoGrid1;
-
-//             call.on('stream', userVideoStream => {
-//                     console.log('call')
-//                     if (!callList[call.peer]) {
-//                         addVideoStream(grid, userVideoStream, `red`);
-//                         callList[call.peer] = call;
-//                     }
-//                 },
-//                 function(err) {
-//                     console.log('Failed to get local stream', err);
-//                 });
-
-//         });
-//     });
-
-
-
-
-
-// socket.on('user-connected', (userId, userName) => {
-//     // console.log(participants)
-
-//     const user = document.createElement('li');
-//     user.innerText = `${userId} ----- ${userName}`;
-//     participants.appendChild(user);
-
-
-//     navigator.mediaDevices.getUserMedia(constraints)
-//         .then(function(stream) {
-//             connectToNewUser(userId, stream);
-//         });
-// });
-
-// document.querySelector('.leave').addEventListener('click', function() {
-//     // console.log('leave')
-
-//     peer.on('close', id => {
-//         // peer.destroy(id => {
-//         console.log(id);
-//         socket.emit('disconnect', ROOM_ID, id);
-//         // });
-
-//     });
-// });
-
-// peer.on('close', id => {
-//     // peer.destroy()
-//     socket.emit('disconnect', ROOM_ID);
-//     socket.close();
-// });
-
-
-socket.on('user-disconnected', (userId, userName) => {
-    console.log(`${userName} left`);
-    videoGrid1.removeChild(videoGrid1.childNodes[0]);
-});
-
-
-
-
-function connectToNewUser(userId, stream) {
+function connectToNewUser(userId, userName, stream) {
     console.log(`new user ${userId} connected`);
     const call = peer.call(userId, stream);
     const grid = videoGrid1;
@@ -215,29 +127,48 @@ function connectToNewUser(userId, stream) {
     call.on('stream', userVideoStream => {
             console.log('user')
             if (!callList[call.peer]) {
-                addVideoStream(grid, userVideoStream, `green`);
+                addVideoStream(grid, userVideoStream, `green`, call.peer);
                 callList[call.peer] = call;
             }
         },
         function(err) {
             console.log('Failed to get local stream', err);
         });
-
-    counter++;
-
 }
 
 
+socket.on('user-disconnected', (userId, userName) => {
+    console.log(`${userName} left`);
+
+    let index = 0;
+    for (let i = 0; i < videoGrid1.length; i++) {
+        let tempId = videoGrid1.childNodes[i].getAttribute('id');
+        if (tempId === userId) {
+            index = i;
+            break;
+        }
+    }
+    videoGrid1.removeChild(videoGrid1.childNodes[index]);
+});
 
 
-function addVideoStream(grid, stream, color) {
+
+
+
+
+
+
+function addVideoStream(grid, stream, color, userId) {
     const video = document.createElement('video');
     // video.setAttribute('muted', 'muted');
     video.srcObject = stream;
     if (grid === videoGrid2) {
         video.volume = 0;
-    }
+    } else {
 
+
+    }
+    video.setAttribute('id', `${userId}`)
 
     video.style.border = `2px solid ${color}`;
 
@@ -248,6 +179,38 @@ function addVideoStream(grid, stream, color) {
 
 
 }
+
+function chatBox(msg, bgColor, color, align, userName) {
+    const date = new Date();
+    const hour = date.getHours();
+    const min = date.getMinutes();
+
+    const messageArea = document.createElement('div');
+    messageArea.classList.add(`${align}`);
+
+    const message = document.createElement('div');
+    message.classList.add('chat-box');
+    message.style.backgroundColor = bgColor;
+    message.style.color = color;
+
+    message.innerHTML = `
+    <div class='d-flex flex-row justify-content-between' style='font-size:10px;'>
+    <div>${userName}</div>
+    <div>${hour}:${min}</div>
+    </div>
+    <div class="message">
+    ${msg}
+    </div>`;
+
+    messageArea.appendChild(message)
+    chat.appendChild(messageArea);
+
+    chat.scrollTop = chat.scrollHeight;
+}
+
+// setInterval(function() {
+//     chat.scrollTop = chat.scrollHeight;
+// }, 100);
 
 
 msgInput.addEventListener('keydown', function(e) {
@@ -260,61 +223,16 @@ function sendMsg() {
     const msg = msgInput.value;
     console.log(msg);
 
+    chatBox(msg, '#7c84ec', 'white', 'end', 'Me');
+
     socket.emit('message', msg);
     msgInput.value = '';
 }
 
-let users = [];
-
 socket.on('createMessage', (msg, userId, userName) => {
 
-    let msgColor;
-    let bgColor;
-
-    if (users.length == 0) {
-        let user = { id: userId, name: userName, color: 'white', bgColor: 'blue' };
-        users.push(user);
-        msgColor = user.color;
-        bgColor = user.bgColor;
-    } else if (users.length == 1 && users[0].id !== userId) {
-        let user = { id: userId, name: userName, color: 'black', bgColor: 'grey' };
-        users.push(user);
-        msgColor = user.color;
-        bgColor = user.bgColor;
-    } else {
-        if (users[0].id == userId) {
-            msgColor = users[0].color;
-            bgColor = users[0].bgColor;
-        } else {
-            msgColor = users[1].color;
-            bgColor = users[1].bgColor;
-        }
-    }
-
-    const date = new Date();
-    const hour = date.getHours();
-    const min = date.getMinutes();
-
-    const message = document.createElement('div');
-    message.classList.add('chat-box');
-    message.style.backgroundColor = bgColor;
-    message.style.color = msgColor;
-
-    message.innerHTML = `
-    <div class='d-flex flex-row justify-content-between' style='font-size:10px;'>
-    <div>${userName}</div>
-    <div>${hour}:${min}</div>
-    </div>
-    <div class="message">
-    ${msg}
-    </div>`;
-
-    chat.appendChild(message);
+    chatBox(msg, '#4f58ca', 'white', 'start', userName);
 });
-
-
-
-
 
 
 const setMuteButton = () => {
@@ -378,14 +296,16 @@ function screenSharing() {
         .then(function(stream) {
 
             temp = stream;
-            console.log(stream);
+            console.log(temp);
+
             socket.emit('screen-share', peer.id);
 
-            addVideoStream(videoGrid2, stream, 'blue');
+            const id = `${peer.id}-screen`;
+            addVideoStream(videoGrid2, stream, 'blue', id);
 
             stream.getVideoTracks()[0].addEventListener('ended', () => {
                 stopSharing();
-                connectToNewUser(peer.id, myVideoStream)
+                //connectToNewUser(peer.id, myVideoStream)
             });
         });
 }
@@ -393,7 +313,7 @@ function screenSharing() {
 socket.on('screen-sharing', userId => {
     console.log('sharing' + userId)
     console.log(temp);
-    connectToNewUser(userId, temp)
+    //connectToNewUser(userId, temp)
 });
 
 // function uploadFile() {
@@ -411,13 +331,12 @@ var loadFile = function(event) {
     image.src = URL.createObjectURL(event.target.files[0]);
 };
 
-// setInterval(function() {
+setInterval(function() {
 
-//     if (counter !== undefined) {
+    for (let i = 0; i < videoGrid1.childNodes.length; i++) {
 
-//         for (let i = 0; i < counter; i++) {
-//             // console.log(videoGrid1.childNodes[i]);
-//             videoGrid1.childNodes[i].style.height = gridOfVideos[counter - 1].height;
-//         }
-//     }
-// }, 100);
+        videoGrid1.childNodes[i].style.height = gridOfVideos[videoGrid1.childNodes.length - 1].height;
+        videoGrid1.childNodes[i].style.width = gridOfVideos[videoGrid1.childNodes.length - 1].width;
+
+    }
+}, 1000);

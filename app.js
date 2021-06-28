@@ -11,13 +11,14 @@ const io = require('socket.io')(server);
 const { ExpressPeerServer } = require('peer');
 const peerServer = ExpressPeerServer(server, {
     debug: true,
-    // path: '/peerjs'
 });
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use('/peerjs', peerServer);
+
+let counter = 0;
 
 // ---------------------- Home --------------------------
 
@@ -50,27 +51,34 @@ app.post('/joinRoom', function(req, res) {
 
 app.get('/:roomId', function(req, res) {
     const roomId = req.params.roomId;
-    // console.log(roomId)
-    res.render('room', { roomId: roomId });
+
+    if (counter >= 10) {
+        res.render('sorry', { roomId: roomId });
+    } else {
+        res.render('room', { roomId: roomId });
+    }
 });
 
 io.on('connection', socket => {
     socket.on('join-room', (roomId, userId, userName) => {
-        // console.log(roomId);
         socket.join(roomId);
-        // console.log('me', roomId, userId, stream)
+
+        counter++;
+        console.log(counter);
 
         socket.to(roomId).emit('user-connected', userId, userName);
 
         socket.on('message', message => {
-            io.to(roomId).emit('createMessage', message, userId, userName);
+            socket.to(roomId).emit('createMessage', message, userId, userName);
         });
 
-        socket.on('screen-share', userId => {
-            socket.to(roomId).emit('screen-sharing', userId);
+        socket.on('screen-share', (userId) => {
+            // console.log(temp);
+            socket.broadcast.to(roomId).emit('screen-sharing', userId);
         });
 
         socket.on('disconnect', () => {
+            counter--;
             console.log(`disconnect`);
             socket.to(roomId).emit('user-disconnected', userId, userName);
         });
