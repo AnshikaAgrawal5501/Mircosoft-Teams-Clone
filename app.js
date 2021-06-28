@@ -19,6 +19,7 @@ app.use(express.static("public"));
 app.use('/peerjs', peerServer);
 
 let counter = 0;
+let users = [];
 
 // ---------------------- Home --------------------------
 
@@ -59,14 +60,18 @@ app.get('/:roomId', function(req, res) {
     }
 });
 
+
 io.on('connection', socket => {
     socket.on('join-room', (roomId, userId, userName) => {
+
+        users.push({ id: userId, name: userName });
+
         socket.join(roomId);
 
         counter++;
-        console.log(counter);
+        console.log(counter, users);
 
-        socket.to(roomId).emit('user-connected', userId, userName);
+        socket.to(roomId).emit('user-connected', userId, userName, users);
 
         socket.on('message', message => {
             socket.to(roomId).emit('createMessage', message, userId, userName);
@@ -78,9 +83,20 @@ io.on('connection', socket => {
         });
 
         socket.on('disconnect', () => {
+
+            let index = 0;
+            for (let i = 0; i < counter; i++) {
+                if (users[i].id === userId) {
+                    index = i;
+                    break;
+                }
+            }
+
+            users.splice(index, 1);
             counter--;
-            console.log(`disconnect`);
-            socket.to(roomId).emit('user-disconnected', userId, userName);
+
+            console.log(`${userName} disconnect`);
+            socket.to(roomId).emit('user-disconnected', userId, userName, users);
         });
     });
 });

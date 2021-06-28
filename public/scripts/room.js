@@ -2,7 +2,10 @@ const videoGrid1 = document.getElementById('video-grid-1');
 const videoGrid2 = document.getElementById('video-grid-2');
 const participants = document.querySelector('.user-list ul');
 const msgInput = document.getElementById('messageInput');
-const chat = document.querySelector('.chat-list')
+const chat = document.querySelector('.chat-list');
+const modal = document.getElementById('userData');
+
+let fname, lname, email, phone, nname, flag = true;
 
 const audioOpt = document.getElementById('audioOption')
 const videoOpt = document.getElementById('videoOption')
@@ -14,7 +17,6 @@ const peer = new Peer();
 let myVideoStream;
 
 const callList = [];
-const users = [];
 
 const gridOfVideos = [{
         height: '100%',
@@ -55,6 +57,10 @@ const gridOfVideos = [{
 ];
 
 
+/////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////   calling    //////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+
 
 let constraints = {
     audio: {
@@ -68,18 +74,44 @@ let constraints = {
 };
 
 
+
+// function submitUserInfo() {
+//     fname = document.getElementById('fname').value;
+//     lname = document.getElementById('lname').value;
+//     email = document.getElementById('email').value;
+//     phone = document.getElementById('phone').value;
+//     nname = document.getElementById('nname').value;
+
+//     console.log(modal, fname, lname, email, phone, nname);
+//     flag = false;
+// }
+
+// function modalOpen() {
+//     const myModal = new bootstrap.Modal(modal, { keyboard: false });
+//     myModal.show();
+
+//     while ($(modal).hasClass('show')) {
+//         console.log('df');
+//     }
+
+//     return;
+// }
+
+
 peer.on('open', id => {
+
+    // modalOpen();
+
+
 
     let userName = prompt('Enter your name.');
     if (userName === null) {
         userName = `Guest`;
     }
 
-    users.push({ id: id, name: userName });
+    // console.log(modal, fname, lname, email, phone, nname);
 
-    const list = document.createElement('li');
-    list.innerText = userName;
-    participants.appendChild(list);
+    createListElement(userName);
 
     navigator.mediaDevices.getUserMedia(constraints)
         .then(function(stream) {
@@ -108,17 +140,34 @@ peer.on('call', call => {
         });
 });
 
+peer.on('connection', function(conn) {
+    conn.on('data', function(users) {
+        createParticipantList(users);
+    });
+});
 
-socket.on('user-connected', (userId, userName) => {
+function createListElement(userName) {
     const list = document.createElement('li');
     list.innerText = userName;
     participants.appendChild(list);
+}
 
-    connectToNewUser(userId, userName, myVideoStream);
+function createParticipantList(users) {
+    participants.innerHTML = '';
+
+    for (let i = 0; i < users.length; i++) {
+        createListElement(users[i].name);
+    }
+}
+
+socket.on('user-connected', (userId, userName, users) => {
+
+    createParticipantList(users)
+    connectToNewUser(userId, userName, myVideoStream, users);
 
 });
 
-function connectToNewUser(userId, userName, stream) {
+function connectToNewUser(userId, userName, stream, users) {
     console.log(`new user ${userId} connected`);
     const call = peer.call(userId, stream);
     const grid = videoGrid1;
@@ -134,11 +183,24 @@ function connectToNewUser(userId, userName, stream) {
         function(err) {
             console.log('Failed to get local stream', err);
         });
+
+    const conn = peer.connect(userId);
+    conn.on('open', function() {
+        conn.send(users);
+    });
 }
 
 
-socket.on('user-disconnected', (userId, userName) => {
+socket.on('user-disconnected', (userId, userName, users) => {
     console.log(`${userName} left`);
+
+    participants.innerHTML = '';
+
+    for (let i = 0; i < users.length; i++) {
+        const list = document.createElement('li');
+        list.innerText = users[i].name;
+        participants.appendChild(list);
+    }
 
     let index = 0;
     for (let i = 0; i < videoGrid1.length; i++) {
@@ -150,12 +212,6 @@ socket.on('user-disconnected', (userId, userName) => {
     }
     videoGrid1.removeChild(videoGrid1.childNodes[index]);
 });
-
-
-
-
-
-
 
 
 function addVideoStream(grid, stream, color, userId) {
@@ -176,11 +232,16 @@ function addVideoStream(grid, stream, color, userId) {
         video.play();
     })
     grid.append(video);
-
-
 }
 
-function chatBox(msg, bgColor, color, align, userName) {
+
+/////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////   chatting   //////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+function chatBox(msg, bgColor, align, userName) {
     const date = new Date();
     const hour = date.getHours();
     const min = date.getMinutes();
@@ -191,7 +252,7 @@ function chatBox(msg, bgColor, color, align, userName) {
     const message = document.createElement('div');
     message.classList.add('chat-box');
     message.style.backgroundColor = bgColor;
-    message.style.color = color;
+    message.style.color = 'white';
 
     message.innerHTML = `
     <div class='d-flex flex-row justify-content-between' style='font-size:10px;'>
@@ -208,10 +269,6 @@ function chatBox(msg, bgColor, color, align, userName) {
     chat.scrollTop = chat.scrollHeight;
 }
 
-// setInterval(function() {
-//     chat.scrollTop = chat.scrollHeight;
-// }, 100);
-
 
 msgInput.addEventListener('keydown', function(e) {
     if (e.keyCode === 13) {
@@ -223,7 +280,7 @@ function sendMsg() {
     const msg = msgInput.value;
     console.log(msg);
 
-    chatBox(msg, '#7c84ec', 'white', 'end', 'Me');
+    chatBox(msg, '#7c84ec', 'end', 'Me');
 
     socket.emit('message', msg);
     msgInput.value = '';
@@ -231,8 +288,16 @@ function sendMsg() {
 
 socket.on('createMessage', (msg, userId, userName) => {
 
-    chatBox(msg, '#4f58ca', 'white', 'start', userName);
+    chatBox(msg, '#4f58ca', 'start', userName);
 });
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////   audio-video mute   /////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+
+
 
 
 const setMuteButton = () => {
@@ -257,9 +322,6 @@ const muteUnmute = () => {
 }
 
 
-
-
-
 const setPlayVideo = () => {
     const html = `<i class="fas fa-video-slash nav-link"></i>`
     videoOpt.innerHTML = html;
@@ -280,6 +342,15 @@ const playStop = () => {
         setStopVideo()
     }
 }
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////   screen-sharing   //////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+
+
+
 
 let temp;
 
@@ -331,6 +402,16 @@ var loadFile = function(event) {
     image.src = URL.createObjectURL(event.target.files[0]);
 };
 
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////   Grid-check   //////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
 setInterval(function() {
 
     for (let i = 0; i < videoGrid1.childNodes.length; i++) {
@@ -340,3 +421,10 @@ setInterval(function() {
 
     }
 }, 1000);
+
+
+// window.addEventListener('load', function() {
+//     console.log('modal')
+//     const myModal = new bootstrap.Modal(modal, { keyboard: false });
+//     myModal.show();
+// });

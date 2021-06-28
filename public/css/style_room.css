@@ -99,9 +99,8 @@ video {
     font-size: 15px;
 }
 
-.user-list ul,
 .file-list ul {
-    margin-top: 20px;
+    margin: 20px ppx;
     padding: 0;
     list-style-type: none;
     overflow-y: scroll;
@@ -111,9 +110,15 @@ video {
     height: 74vh;
 }
 
+.user-list ul {
+    padding: 0 5px;
+}
+
 .user-list ul li,
 .file-list ul li {
     padding: 5px 0 0;
+    list-style-type: none;
+    color: #4f58ca;
 }
 
 
@@ -145,6 +150,7 @@ video {
 }
 
 .chat-list,
+.user-list,
 .file-list {
     margin: 20px 0;
     padding: 0;
