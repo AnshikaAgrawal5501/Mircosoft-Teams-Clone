@@ -20,6 +20,7 @@ app.use('/peerjs', peerServer);
 
 let counter = 0;
 let users = [];
+let ord;
 
 // ---------------------- Home --------------------------
 
@@ -31,6 +32,7 @@ app.get('/', function(req, res) {
 
 app.get('/createRoom', function(req, res) {
     const roomId = uuidv4();
+    ord = roomId;
     console.log(roomId);
     res.render('createRoom', { roomId: roomId });
 });
@@ -43,33 +45,81 @@ app.get('/joinRoom', function(req, res) {
 
 // ---------------------- Join Room (post) --------------------------
 
+let rrd;
+
 app.post('/joinRoom', function(req, res) {
     const requestedroomId = req.body.roomId;
-    res.redirect(`/${requestedroomId}`);
+    rrd = requestedroomId
+        // res.redirect(`/${requestedroomId}`);
+    res.render('form', { roomId: requestedroomId });
 });
+
 
 // ---------------------- Room --------------------------
 
-app.get('/:roomId', function(req, res) {
+// app.get('/form', function(req, res) {
+//     res.render('form');
+// });
+
+app.get('/form', function(req, res) {
+    res.render('form', { roomId: rrd || ord });
+});
+
+app.post('/form', function(req, res) {
+
+    const obj = {
+        fname: req.body.fname,
+        lname: req.body.lname,
+        email: req.body.email,
+        phone: req.body.phone,
+        nname: req.body.nname
+    }
+
+    users.push(obj);
+    console.log("line 69", users)
+        // console.log(req)
+
+    res.redirect(`/room/${req.body.roomId}`);
+});
+
+app.get('/room/:roomId', function(req, res) {
+
+    // try {
+    // console.log(req)
     const roomId = req.params.roomId;
 
     if (counter >= 10) {
         res.render('sorry', { roomId: roomId });
     } else {
-        res.render('room', { roomId: roomId });
+        // res.redirect('/form');
+        res.render('room', {
+            roomId: roomId,
+            userFName: users[users.length - 1].fname,
+            userLName: users[users.length - 1].lname,
+            userEmail: users[users.length - 1].email,
+            userPhone: users[users.length - 1].phone,
+            userName: users[users.length - 1].nname,
+        });
     }
+
+    // } catch (e) {
+    //     res.redirect('/form');
+    // }
 });
+
+
 
 
 io.on('connection', socket => {
     socket.on('join-room', (roomId, userId, userName) => {
 
-        users.push({ id: userId, name: userName });
+        // users.push({ id: userId, name: userName });
+        users[users.length - 1].id = userId;
 
         socket.join(roomId);
 
         counter++;
-        console.log(counter, users);
+        console.log("line 104 ", counter, users);
 
         socket.to(roomId).emit('user-connected', userId, userName, users);
 

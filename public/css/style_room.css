@@ -114,11 +114,11 @@ video {
     padding: 0 5px;
 }
 
-.user-list ul li,
+.user-list ul li a,
 .file-list ul li {
     padding: 5px 0 0;
     list-style-type: none;
-    color: #4f58ca;
+    color: #4f58ca !important;
 }
 
 
@@ -181,9 +181,22 @@ video {
     padding-top: 5px;
     line-height: 1.2;
     font-size: 15px;
-    word-break: break-all;
+    word-break: break-word;
 }
 
 #output {
     width: 100%;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+.popover {
+    width: 300px;
+    left: -75px !important;
+}
+
+.arrow {
+    left: 75px !important;
 }

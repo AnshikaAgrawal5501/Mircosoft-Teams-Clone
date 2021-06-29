@@ -7,8 +7,8 @@ const modal = document.getElementById('userData');
 
 let fname, lname, email, phone, nname, flag = true;
 
-const audioOpt = document.getElementById('audioOption')
-const videoOpt = document.getElementById('videoOption')
+const audioOpt = document.getElementById('audioOption');
+const videoOpt = document.getElementById('videoOption');
 
 const screenShare = document.querySelector('#screen-share i');
 
@@ -74,49 +74,19 @@ let constraints = {
 };
 
 
-
-// function submitUserInfo() {
-//     fname = document.getElementById('fname').value;
-//     lname = document.getElementById('lname').value;
-//     email = document.getElementById('email').value;
-//     phone = document.getElementById('phone').value;
-//     nname = document.getElementById('nname').value;
-
-//     console.log(modal, fname, lname, email, phone, nname);
-//     flag = false;
-// }
-
-// function modalOpen() {
-//     const myModal = new bootstrap.Modal(modal, { keyboard: false });
-//     myModal.show();
-
-//     while ($(modal).hasClass('show')) {
-//         console.log('df');
-//     }
-
-//     return;
-// }
-
-
 peer.on('open', id => {
 
-    // modalOpen();
-
-
-
-    let userName = prompt('Enter your name.');
-    if (userName === null) {
-        userName = `Guest`;
+    if (USER_NAME === undefined || USER_NAME === '') {
+        USER_NAME = USER_FNAME;
     }
 
-    // console.log(modal, fname, lname, email, phone, nname);
-
-    createListElement(userName);
+    console.log(USER_NAME);
+    createListElement(USER_NAME, USER_FNAME, USER_LNAME, USER_EMAIL, USER_PHONE);
 
     navigator.mediaDevices.getUserMedia(constraints)
         .then(function(stream) {
             myVideoStream = stream;
-            socket.emit('join-room', ROOM_ID, id, userName);
+            socket.emit('join-room', ROOM_ID, id, USER_NAME);
             console.log("peer on", myVideoStream);
 
             const grid = videoGrid2;
@@ -152,9 +122,21 @@ peer.on('connection', function(conn) {
     });
 });
 
-function createListElement(userName) {
+function popoverActivate() {
+    $('[data-toggle="popover"]').popover();
+}
+
+function createListElement(userName, fname, lname, email, phone) {
     const list = document.createElement('li');
-    list.innerText = userName;
+
+    list.innerHTML = `
+    <a href="#" class="pops" title="${fname} ${lname}" data-toggle="popover" 
+    data-placement="bottom" data-trigger="hover" data-content="Email: ${email} 
+    Contact no. : ${phone}" onclick="popoverActivate()">
+    ${userName}
+    </a>
+    `;
+
     participants.appendChild(list);
 }
 
@@ -162,7 +144,7 @@ function createParticipantList(users) {
     participants.innerHTML = '';
 
     for (let i = 0; i < users.length; i++) {
-        createListElement(users[i].name);
+        createListElement(users[i].nname, users[i].fname, users[i].lname, users[i].email, users[i].phone);
     }
 }
 
@@ -175,9 +157,6 @@ socket.on('user-connected', (userId, userName, users) => {
 
 function connectToNewUser(userId, stream, users) {
 
-    // if (flag) {
-    //     console.log('abc', stream)
-    // }
     console.log(`new user ${userId} connected`);
     const call = peer.call(userId, stream);
     const grid = videoGrid1;
@@ -208,13 +187,7 @@ function connectToNewUser(userId, stream, users) {
 socket.on('user-disconnected', (userId, userName, users) => {
     console.log(`${userName} left`);
 
-    participants.innerHTML = '';
-
-    for (let i = 0; i < users.length; i++) {
-        const list = document.createElement('li');
-        list.innerText = users[i].name;
-        participants.appendChild(list);
-    }
+    createParticipantList(users)
 
     let index = 0;
     for (let i = 0; i < videoGrid1.childNodes.length; i++) {
@@ -229,6 +202,9 @@ socket.on('user-disconnected', (userId, userName, users) => {
 
 
 function addVideoStream(grid, stream, color, userId) {
+
+    const div = document.createElement('div');
+
     const video = document.createElement('video');
 
     video.srcObject = stream;
@@ -452,7 +428,7 @@ var loadFile = function(event) {
 
 
 /////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////   Grid-check   //////////////////////////////////////////
+/////////////////////////////////   Grid-check   ////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -466,11 +442,4 @@ setInterval(function() {
         videoGrid1.childNodes[i].style.width = gridOfVideos[videoGrid1.childNodes.length - 1].width;
 
     }
-}, 1000);
-
-
-// window.addEventListener('load', function() {
-//     console.log('modal')
-//     const myModal = new bootstrap.Modal(modal, { keyboard: false });
-//     myModal.show();
-// });
+}, 100);

@@ -1,0 +1,53 @@
+<%- include('partials/header') -%>
+
+
+    <div class="contanier">
+        <div class="d-flex flex-column justify-content-center text-center my-auto">
+
+            <form action="/form" method="post">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="fname">First Name</label>
+                            <input type="text" class="form-control" id="fname" name="fname" required>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="lname">Last Name</label>
+                            <input type="text" class="form-control" id="lname" name="lname">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email" name="email">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="phone">Contact No.</label>
+                            <input type="tel" class="form-control" id="phone" name="phone">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="nname">Nickname</label>
+                            <input type="text" class="form-control" id="nname" name="nname">
+                        </div>
+                    </div>
+                </div>
+
+                <input type="hidden" value="<%= roomId %>" name="roomId">
+
+                <button type="submit" class="btn btn-danger" data-dismiss="modal">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <%- include('partials/footer') -%>
