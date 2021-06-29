@@ -16,7 +16,7 @@ const socket = io('/');
 const peer = new Peer();
 let myVideoStream;
 
-const callList = [];
+let callList = [];
 
 const gridOfVideos = [{
         height: '100%',
@@ -117,6 +117,7 @@ peer.on('open', id => {
         .then(function(stream) {
             myVideoStream = stream;
             socket.emit('join-room', ROOM_ID, id, userName);
+            console.log("peer on", myVideoStream);
 
             const grid = videoGrid2;
             addVideoStream(grid, myVideoStream, `white`, id);
@@ -127,10 +128,13 @@ peer.on('call', call => {
     call.answer(myVideoStream);
     const grid = videoGrid1;
 
+    console.log("answer", myVideoStream);
+
     call.on('stream', userVideoStream => {
-            console.log('call')
+
             if (!callList[call.peer]) {
                 console.log(call.peer);
+                console.log("call", userVideoStream);
                 addVideoStream(grid, userVideoStream, `red`, call.peer);
                 callList[call.peer] = call;
             }
@@ -138,6 +142,8 @@ peer.on('call', call => {
         function(err) {
             console.log('Failed to get local stream', err);
         });
+
+    callList = [];
 });
 
 peer.on('connection', function(conn) {
@@ -163,19 +169,24 @@ function createParticipantList(users) {
 socket.on('user-connected', (userId, userName, users) => {
 
     createParticipantList(users)
-    connectToNewUser(userId, userName, myVideoStream, users);
+    connectToNewUser(userId, myVideoStream, users);
 
 });
 
-function connectToNewUser(userId, userName, stream, users) {
+function connectToNewUser(userId, stream, users) {
+
+    // if (flag) {
+    //     console.log('abc', stream)
+    // }
     console.log(`new user ${userId} connected`);
     const call = peer.call(userId, stream);
     const grid = videoGrid1;
 
 
     call.on('stream', userVideoStream => {
-            console.log('user')
+
             if (!callList[call.peer]) {
+                console.log("user", userVideoStream);
                 addVideoStream(grid, userVideoStream, `green`, call.peer);
                 callList[call.peer] = call;
             }
@@ -183,6 +194,9 @@ function connectToNewUser(userId, userName, stream, users) {
         function(err) {
             console.log('Failed to get local stream', err);
         });
+
+
+    callList = [];
 
     const conn = peer.connect(userId);
     conn.on('open', function() {
@@ -203,7 +217,7 @@ socket.on('user-disconnected', (userId, userName, users) => {
     }
 
     let index = 0;
-    for (let i = 0; i < videoGrid1.length; i++) {
+    for (let i = 0; i < videoGrid1.childNodes.length; i++) {
         let tempId = videoGrid1.childNodes[i].getAttribute('id');
         if (tempId === userId) {
             index = i;
@@ -216,22 +230,39 @@ socket.on('user-disconnected', (userId, userName, users) => {
 
 function addVideoStream(grid, stream, color, userId) {
     const video = document.createElement('video');
-    // video.setAttribute('muted', 'muted');
+
     video.srcObject = stream;
-    if (grid === videoGrid2) {
-        video.volume = 0;
-    } else {
-
-
-    }
-    video.setAttribute('id', `${userId}`)
-
     video.style.border = `2px solid ${color}`;
 
     video.addEventListener('loadedmetadata', () => {
         video.play();
     })
-    grid.append(video);
+
+    if (grid === videoGrid2) {
+        video.volume = 0;
+        video.setAttribute('id', `${userId}`);
+        grid.append(video);
+    } else {
+
+        let index;
+        for (let i = 0; i < grid.childNodes.length; i++) {
+            let tempId = grid.childNodes[i].getAttribute('id');
+            if (tempId === userId) {
+                index = i;
+                break;
+            }
+        }
+        console.log(index)
+
+        if (index !== undefined) {
+            grid.removeChild(grid.childNodes[index]);
+            video.setAttribute('id', `${userId}`);
+            grid.insertBefore(video, grid.childNodes[index]);
+        } else {
+            video.setAttribute('id', `${userId}`);
+            grid.append(video);
+        }
+    }
 }
 
 
@@ -355,8 +386,12 @@ const playStop = () => {
 let temp;
 
 function stopSharing() {
+    console.log('stop-sharing', myVideoStream);
+
     videoGrid2.removeChild(videoGrid2.childNodes[1]);
     screenShare.classList.remove('screen-share-active');
+
+    socket.emit('stop-screen-share', peer.id);
 }
 
 function screenSharing() {
@@ -366,25 +401,36 @@ function screenSharing() {
     navigator.mediaDevices.getDisplayMedia({ video: true })
         .then(function(stream) {
 
-            temp = stream;
-            console.log(temp);
+            console.log("screen before", myVideoStream);
+
+            temp = myVideoStream;
+            myVideoStream = stream;
+
+            console.log("screen after", myVideoStream);
 
             socket.emit('screen-share', peer.id);
 
-            const id = `${peer.id}-screen`;
-            addVideoStream(videoGrid2, stream, 'blue', id);
+            addVideoStream(videoGrid2, stream, 'blue', peer.id);
 
             stream.getVideoTracks()[0].addEventListener('ended', () => {
+                myVideoStream = temp;
+
                 stopSharing();
-                //connectToNewUser(peer.id, myVideoStream)
             });
         });
+
 }
 
-socket.on('screen-sharing', userId => {
+socket.on('screen-sharing', (userId, users) => {
     console.log('sharing' + userId)
-    console.log(temp);
-    //connectToNewUser(userId, temp)
+
+    connectToNewUser(userId, myVideoStream, users);
+});
+
+socket.on('stop-screen-sharing', (userId, users) => {
+    console.log('stop-sharing' + userId)
+
+    connectToNewUser(userId, myVideoStream, users);
 });
 
 // function uploadFile() {
