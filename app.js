@@ -128,12 +128,10 @@ io.on('connection', socket => {
         });
 
         socket.on('screen-share', (userId) => {
-            // console.log(temp);
             socket.broadcast.to(roomId).emit('screen-sharing', userId, users);
         });
 
         socket.on('stop-screen-share', (userId) => {
-            // console.log(temp);
             socket.broadcast.to(roomId).emit('stop-screen-sharing', userId, users);
         });
 

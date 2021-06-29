@@ -15,7 +15,7 @@
 }
 
 #video-grid-1 video {
-    width: 100%;
+    /* width: 100%; */
 }
 
 #video-grid-2 {
@@ -199,4 +199,17 @@ a {
 
 .arrow {
     left: 75px !important;
+}
+
+.box-position {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.resize {
+    width: 100% !important;
+    height: 100% !important;
 }

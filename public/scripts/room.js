@@ -192,7 +192,7 @@ socket.on('user-disconnected', (userId, userName, users) => {
     let index = 0;
     for (let i = 0; i < videoGrid1.childNodes.length; i++) {
         let tempId = videoGrid1.childNodes[i].getAttribute('id');
-        if (tempId === userId) {
+        if (tempId === `ca${userId}`) {
             index = i;
             break;
         }
@@ -203,27 +203,38 @@ socket.on('user-disconnected', (userId, userName, users) => {
 
 function addVideoStream(grid, stream, color, userId) {
 
-    const div = document.createElement('div');
-
     const video = document.createElement('video');
-
     video.srcObject = stream;
-    video.style.border = `2px solid ${color}`;
 
     video.addEventListener('loadedmetadata', () => {
         video.play();
     })
 
     if (grid === videoGrid2) {
+        video.style.border = `2px solid ${color}`;
         video.volume = 0;
         video.setAttribute('id', `${userId}`);
         grid.append(video);
     } else {
 
+        const div = document.createElement('div');
+        div.setAttribute('id', `ca${userId}`);
+        div.classList.add('box-position');
+
+        div.style.border = `2px solid ${color}`;
+        div.style.borderRadius = `10px`;
+
+        div.innerHTML = `
+    <a style="position: absolute; right: 10px; z-index: 2;" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"></a>
+    <div class="dropdown-menu">
+        <li class="dropdown-item" id="a${userId}" onclick="resize(id)">Full Screen</li>
+    </div>
+    `;
+
         let index;
         for (let i = 0; i < grid.childNodes.length; i++) {
             let tempId = grid.childNodes[i].getAttribute('id');
-            if (tempId === userId) {
+            if (tempId === `ca${userId}`) {
                 index = i;
                 break;
             }
@@ -233,12 +244,62 @@ function addVideoStream(grid, stream, color, userId) {
         if (index !== undefined) {
             grid.removeChild(grid.childNodes[index]);
             video.setAttribute('id', `${userId}`);
-            grid.insertBefore(video, grid.childNodes[index]);
+            div.appendChild(video);
+
+            if (index == grid.childNodes.length) {
+                index--;
+            }
+            grid.insertBefore(div, grid.childNodes[index]);
         } else {
             video.setAttribute('id', `${userId}`);
-            grid.append(video);
+            div.appendChild(video);
+            grid.append(div);
         }
     }
+}
+
+function resize(e) {
+    console.log(e)
+    for (let i = 0; i < videoGrid1.childNodes.length; i++) {
+        let tempId = videoGrid1.childNodes[i].getAttribute('id');
+        if (tempId !== `c${e}`) {
+            videoGrid1.childNodes[i].style.display = 'none';
+        }
+    }
+    const box = document.getElementById(`c${e}`);
+
+    box.classList.add('resize');
+
+    const div = document.createElement('div');
+    div.innerHTML = '<i class="fas fa-times"></i>';
+    div.style.color = 'red';
+    div.style.position = 'absolute';
+    div.style.top = '10px';
+    div.style.left = '10px';
+    div.style.zIndex = '2';
+
+    div.setAttribute('onclick', `back('${e}')`);
+
+    box.appendChild(div);
+}
+
+function back(e) {
+    console.log(e);
+
+    for (let i = 0; i < videoGrid1.childNodes.length; i++) {
+        let tempId = videoGrid1.childNodes[i].getAttribute('id');
+        if (tempId !== `c${e}`) {
+            videoGrid1.childNodes[i].style.display = 'flex';
+        }
+    }
+
+    const box = document.getElementById(`c${e}`);
+
+    box.classList.remove('resize');
+    console.log(box, box.childNodes);
+    box.removeChild(box.childNodes[6]);
+
+    gridCheck();
 }
 
 
@@ -285,7 +346,7 @@ msgInput.addEventListener('keydown', function(e) {
 
 function sendMsg() {
     const msg = msgInput.value;
-    console.log(msg);
+    // console.log(msg);
 
     chatBox(msg, '#7c84ec', 'end', 'Me');
 
@@ -432,9 +493,7 @@ var loadFile = function(event) {
 /////////////////////////////////////////////////////////////////////////////////////////
 
 
-
-
-setInterval(function() {
+function gridCheck() {
 
     for (let i = 0; i < videoGrid1.childNodes.length; i++) {
 
@@ -442,4 +501,6 @@ setInterval(function() {
         videoGrid1.childNodes[i].style.width = gridOfVideos[videoGrid1.childNodes.length - 1].width;
 
     }
-}, 100);
+}
+
+setInterval(gridCheck, 100);
