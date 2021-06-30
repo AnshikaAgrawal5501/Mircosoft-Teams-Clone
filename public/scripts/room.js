@@ -189,8 +189,6 @@ socket.on('user-connected', (userId, userName, users) => {
 });
 
 function connectToNewUser(userId, stream, users, flag = false) {
-    //false:true -> screen-sahring 
-    //flag:false -> normal video
 
     console.log(`new user ${userId} connected`);
     const call = peer.call(userId, stream);
@@ -201,7 +199,12 @@ function connectToNewUser(userId, stream, users, flag = false) {
 
             if (!callList[call.peer]) {
                 console.log("user", userVideoStream);
-                addVideoStream(grid, userVideoStream, `green`, call.peer);
+
+                if (!flag) {
+                    addVideoStream(grid, userVideoStream, `green`, call.peer);
+                } else {
+                    removeVideo(userId);
+                }
                 callList[call.peer] = call;
             }
         },
@@ -218,6 +221,17 @@ function connectToNewUser(userId, stream, users, flag = false) {
     });
 }
 
+function removeVideo(userId) {
+    let index = 0;
+    for (let i = 0; i < videoGrid1.childNodes.length; i++) {
+        let tempId = videoGrid1.childNodes[i].getAttribute('id');
+        if (tempId === `ca${userId}`) {
+            index = i;
+            break;
+        }
+    }
+    videoGrid1.removeChild(videoGrid1.childNodes[index]);
+}
 
 socket.on('user-disconnected', (userId, userName, users) => {
     console.log(`${userName} left`);
@@ -266,7 +280,7 @@ function addVideoStream(grid, stream, color, userId) {
         let index;
         for (let i = 0; i < grid.childNodes.length; i++) {
             let tempId = grid.childNodes[i].getAttribute('id');
-            if (tempId === `ca${userId}`) {
+            if (tempId === `c${userId}`) {
                 index = i;
                 break;
             }
@@ -274,13 +288,13 @@ function addVideoStream(grid, stream, color, userId) {
         console.log(index)
 
         if (index !== undefined) {
-            grid.removeChild(grid.childNodes[index]);
-            div.appendChild(video);
 
-            if (index == grid.childNodes.length) {
-                index--;
+            if (color === 'green') {
+                div.setAttribute('id', `ca${userId}`);
+                div.childNodes[0].setAttribute('id', `a${userId}`);
+                div.appendChild(video);
+                grid.append(div);
             }
-            grid.insertBefore(div, grid.childNodes[index]);
         } else {
             div.appendChild(video);
             grid.append(div);
@@ -381,10 +395,12 @@ function sendMsg() {
     const msg = msgInput.value;
     // console.log(msg);
 
-    chatBox(msg, '#7c84ec', 'end', 'Me');
+    if (msg.length > 0) {
+        chatBox(msg, '#7c84ec', 'end', 'Me');
 
-    socket.emit('message', msg);
-    msgInput.value = '';
+        socket.emit('message', msg);
+        msgInput.value = '';
+    }
 }
 
 socket.on('createMessage', (msg, userId, userName) => {
@@ -499,13 +515,13 @@ socket.on('screen-sharing', (userId, users) => {
     console.log('sharing' + userId)
 
     // connectToNewUser(userId, myVideoStream, users);
-    connectToNewUser(userId, myVideoStream, users, true);
+    connectToNewUser(userId, myVideoStream, users);
 });
 
 socket.on('stop-screen-sharing', (userId, users) => {
     console.log('stop-sharing' + userId)
 
-    connectToNewUser(userId, myVideoStream, users);
+    connectToNewUser(userId, myVideoStream, users, true);
 });
 
 // function uploadFile() {

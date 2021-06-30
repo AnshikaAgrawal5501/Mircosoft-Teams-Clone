@@ -95,7 +95,6 @@ app.get('/room/:roomId', function(req, res) {
     if (counter >= 10) {
         res.render('sorry', { roomId: roomId });
     } else {
-        // res.redirect('/form');
         res.render('room', {
             roomId: roomId,
             userFName: users[users.length - 1].fname,
@@ -117,7 +116,6 @@ app.get('/room/:roomId', function(req, res) {
 io.on('connection', socket => {
     socket.on('join-room', (roomId, userId, userName) => {
 
-        // users.push({ id: userId, name: userName });
         users[users.length - 1].id = userId;
 
         socket.join(roomId);
