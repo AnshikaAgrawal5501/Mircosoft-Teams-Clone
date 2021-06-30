@@ -1,3 +1,7 @@
+body {
+    height: 100vh;
+}
+
 .logo {
     height: 100px;
     width: 100px;
@@ -9,4 +13,26 @@
 
 .btn {
     width: 200px;
+}
+
+
+/* width */
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+
+/* Track */
+
+ ::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+
+/* Handle */
+
+ ::-webkit-scrollbar-thumb {
+    background: rgb(173, 168, 168);
+    border-radius: 2px;
 }

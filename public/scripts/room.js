@@ -50,10 +50,47 @@ const gridOfVideos = [{
         height: '33.33%',
         width: '33.33%'
     },
-    {
+    { //9
         height: '33.33%',
         width: '33.33%'
-    }
+    },
+    {
+        height: '25%',
+        width: '33.33%'
+    },
+    {
+        height: '25%',
+        width: '33.33%'
+    },
+    {
+        height: '33.33%',
+        width: '25%'
+    },
+    {
+        height: '25%',
+        width: '25%'
+    },
+    {
+        height: '25%',
+        width: '25%'
+    },
+    {
+        height: '25%',
+        width: '25%'
+    },
+    {
+        height: '25%',
+        width: '25%'
+    },
+    {
+        height: '20%',
+        width: '25%'
+    },
+    {
+        height: '20%',
+        width: '25%'
+    },
+
 ];
 
 
@@ -75,10 +112,6 @@ let constraints = {
 
 
 peer.on('open', id => {
-
-    if (USER_NAME === undefined || USER_NAME === '') {
-        USER_NAME = USER_FNAME;
-    }
 
     console.log(USER_NAME);
     createListElement(USER_NAME, USER_FNAME, USER_LNAME, USER_EMAIL, USER_PHONE);
@@ -155,7 +188,9 @@ socket.on('user-connected', (userId, userName, users) => {
 
 });
 
-function connectToNewUser(userId, stream, users) {
+function connectToNewUser(userId, stream, users, flag = false) {
+    //false:true -> screen-sahring 
+    //flag:false -> normal video
 
     console.log(`new user ${userId} connected`);
     const call = peer.call(userId, stream);
@@ -192,7 +227,7 @@ socket.on('user-disconnected', (userId, userName, users) => {
     let index = 0;
     for (let i = 0; i < videoGrid1.childNodes.length; i++) {
         let tempId = videoGrid1.childNodes[i].getAttribute('id');
-        if (tempId === `ca${userId}`) {
+        if (tempId === `c${userId}`) {
             index = i;
             break;
         }
@@ -218,18 +253,15 @@ function addVideoStream(grid, stream, color, userId) {
     } else {
 
         const div = document.createElement('div');
-        div.setAttribute('id', `ca${userId}`);
+        div.setAttribute('id', `c${userId}`);
         div.classList.add('box-position');
 
         div.style.border = `2px solid ${color}`;
         div.style.borderRadius = `10px`;
 
-        div.innerHTML = `
-    <a style="position: absolute; right: 10px; z-index: 2;" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"></a>
-    <div class="dropdown-menu">
-        <li class="dropdown-item" id="a${userId}" onclick="resize(id)">Full Screen</li>
-    </div>
-    `;
+        div.innerHTML = `<div style="position: absolute; right: 10px; z-index: 2;" id="${userId}" onclick="resize(id)">
+        <i class="fas fa-expand"></i>
+        </div>`;
 
         let index;
         for (let i = 0; i < grid.childNodes.length; i++) {
@@ -243,7 +275,6 @@ function addVideoStream(grid, stream, color, userId) {
 
         if (index !== undefined) {
             grid.removeChild(grid.childNodes[index]);
-            video.setAttribute('id', `${userId}`);
             div.appendChild(video);
 
             if (index == grid.childNodes.length) {
@@ -251,7 +282,6 @@ function addVideoStream(grid, stream, color, userId) {
             }
             grid.insertBefore(div, grid.childNodes[index]);
         } else {
-            video.setAttribute('id', `${userId}`);
             div.appendChild(video);
             grid.append(div);
         }
@@ -266,15 +296,15 @@ function resize(e) {
             videoGrid1.childNodes[i].style.display = 'none';
         }
     }
+    const fs = document.getElementById(e);
+    fs.style.display = 'none';
     const box = document.getElementById(`c${e}`);
 
     box.classList.add('resize');
 
     const div = document.createElement('div');
-    div.innerHTML = '<i class="fas fa-times"></i>';
-    div.style.color = 'red';
+    div.innerHTML = '<i class="fas fa-compress"></i>';
     div.style.position = 'absolute';
-    div.style.top = '10px';
     div.style.left = '10px';
     div.style.zIndex = '2';
 
@@ -293,11 +323,14 @@ function back(e) {
         }
     }
 
+    const fs = document.getElementById(e);
+    fs.style.display = 'block';
+
     const box = document.getElementById(`c${e}`);
 
     box.classList.remove('resize');
     console.log(box, box.childNodes);
-    box.removeChild(box.childNodes[6]);
+    box.removeChild(box.childNodes[2]);
 
     gridCheck();
 }
@@ -355,6 +388,10 @@ function sendMsg() {
 }
 
 socket.on('createMessage', (msg, userId, userName) => {
+
+    if (!document.getElementById('chat').classList.contains('active')) {
+        document.getElementById('chat-noti').innerHTML = '<i class="fas fa-dot-circle"></i>';
+    }
 
     chatBox(msg, '#4f58ca', 'start', userName);
 });
@@ -461,7 +498,8 @@ function screenSharing() {
 socket.on('screen-sharing', (userId, users) => {
     console.log('sharing' + userId)
 
-    connectToNewUser(userId, myVideoStream, users);
+    // connectToNewUser(userId, myVideoStream, users);
+    connectToNewUser(userId, myVideoStream, users, true);
 });
 
 socket.on('stop-screen-sharing', (userId, users) => {
@@ -503,4 +541,13 @@ function gridCheck() {
     }
 }
 
-setInterval(gridCheck, 100);
+function notifications() {
+    if (document.getElementById('chat').classList.contains('active')) {
+        document.getElementById('chat-noti').innerHTML = '';
+    }
+}
+
+setInterval(function() {
+    gridCheck();
+    notifications();
+}, 100);

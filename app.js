@@ -75,6 +75,10 @@ app.post('/form', function(req, res) {
         nname: req.body.nname
     }
 
+    if (obj.nname === undefined || obj.nname === '') {
+        obj.nname = obj.fname
+    }
+
     users.push(obj);
     console.log("line 69", users)
         // console.log(req)

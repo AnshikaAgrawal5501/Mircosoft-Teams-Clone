@@ -1,14 +1,20 @@
 <%- include('partials/header') -%>
 
 
-    <div class="contanier">
-        <div class="d-flex flex-column justify-content-center text-center my-auto">
+    <div class="row" style="margin: 100px 0;">
+
+        <div class="col-md-6">
+
+            <img src="/images/form.jpg" alt="" class="img-fluid d-block mx-auto">
+        </div>
+
+        <div class="col-md-6 d-flex flex-column my-auto" style="border-left: 2px solid grey; padding-left: 50px;">
 
             <form action="/form" method="post">
-                <div class="row">
+                <div class="form-row">
                     <div class="col">
                         <div class="form-group">
-                            <label for="fname">First Name</label>
+                            <label for="fname">First Name <span style="color: red;">*</span></label>
                             <input type="text" class="form-control" id="fname" name="fname" required>
                         </div>
                     </div>
@@ -19,7 +25,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="form-row">
                     <div class="col">
                         <div class="form-group">
                             <label for="email">Email</label>
@@ -28,7 +34,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="form-row">
                     <div class="col">
                         <div class="form-group">
                             <label for="phone">Contact No.</label>
@@ -37,17 +43,20 @@
                     </div>
                     <div class="col">
                         <div class="form-group">
-                            <label for="nname">Nickname</label>
+                            <label for="nname">Nickname (for chatting)</label>
                             <input type="text" class="form-control" id="nname" name="nname">
                         </div>
                     </div>
                 </div>
 
                 <input type="hidden" value="<%= roomId %>" name="roomId">
-
-                <button type="submit" class="btn btn-danger" data-dismiss="modal">Submit</button>
+                <input type="reset" value="Reset" class="btn btn-success" style="width: 120px;">
+                <button type="submit" class="btn btn-danger" style="width: 120px;">Submit</button>
             </form>
+
         </div>
+    </div>
+
     </div>
 
     <%- include('partials/footer') -%>
