@@ -19,76 +19,76 @@ let myVideoStream;
 let callList = [];
 
 const gridOfVideos = [{
-        height: '97.5%',
-        width: '97.5%'
+        height: '98%',
+        width: '98%'
     },
     {
-        height: '47.5%',
-        width: '47.5%'
+        height: '48%',
+        width: '48%'
     },
     {
-        height: '47.5%',
-        width: '47.5%'
+        height: '48%',
+        width: '48%'
     },
     {
-        height: '47.5%',
-        width: '47.5%'
+        height: '48%',
+        width: '48%'
     },
     {
-        height: '47.5%',
-        width: '30.83%'
+        height: '48%',
+        width: '31.33%'
     },
     {
-        height: '47.5%',
-        width: '30.83%'
+        height: '48%',
+        width: '31.33%'
     },
     {
-        height: '30.83%',
-        width: '30.83%'
+        height: '31.33%',
+        width: '31.33%'
     },
     {
-        height: '30.83%',
-        width: '30.83%'
+        height: '31.33%',
+        width: '31.33%'
     },
     { //9
-        height: '30.83%',
-        width: '30.83%'
+        height: '31.33%',
+        width: '31.33%'
     },
     {
-        height: '22.5%',
-        width: '30.83%'
+        height: '23%',
+        width: '31.33%'
     },
     {
-        height: '22.5%',
-        width: '30.83%'
+        height: '23%',
+        width: '31.33%'
     },
     {
-        height: '30.83%',
-        width: '22.5%'
+        height: '31.33%',
+        width: '23%'
     },
     {
-        height: '22.5%',
-        width: '22.5%'
+        height: '23%',
+        width: '23%'
     },
     {
-        height: '22.5%',
-        width: '22.5%'
+        height: '23%',
+        width: '23%'
     },
     {
-        height: '22.5%',
-        width: '22.5%'
+        height: '23%',
+        width: '23%'
     },
     {
-        height: '22.5%',
-        width: '22.5%'
+        height: '23%',
+        width: '23%'
     },
     {
-        height: '17.5%',
-        width: '22.5%'
+        height: '18%',
+        width: '23%'
     },
     {
-        height: '17.5',
-        width: '22.5%'
+        height: '18%',
+        width: '23%'
     },
 ];
 

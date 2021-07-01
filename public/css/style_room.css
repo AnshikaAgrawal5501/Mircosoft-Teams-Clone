@@ -202,7 +202,7 @@ a {
 }
 
 .box-position {
-    box-sizing: margin-box;
+    box-sizing: border-box;
     margin: 1%;
     position: relative;
     height: 98%;
@@ -210,7 +210,7 @@ a {
     display: flex;
     justify-content: center;
     background-color: #f7b8bd;
-    border: 0.25% solid #ff4151;
+    border: 2px solid #ff4151;
     border-radius: 10px;
 }
 
