@@ -202,11 +202,12 @@ a {
 }
 
 .box-position {
+    /* box-sizing: margin-box;
+    margin: 1%; */
     box-sizing: border-box;
-    margin: 1%;
     position: relative;
-    height: 98%;
-    width: 98%;
+    height: 100%;
+    width: 100%;
     display: flex;
     justify-content: center;
     background-color: #f7b8bd;

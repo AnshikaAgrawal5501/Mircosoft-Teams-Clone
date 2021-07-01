@@ -18,153 +18,153 @@ let myVideoStream;
 
 let callList = [];
 
-const gridOfVideos = [{
-        height: '98%',
-        width: '98%'
-    },
-    {
-        height: '48%',
-        width: '48%'
-    },
-    {
-        height: '48%',
-        width: '48%'
-    },
-    {
-        height: '48%',
-        width: '48%'
-    },
-    {
-        height: '48%',
-        width: '31.33%'
-    },
-    {
-        height: '48%',
-        width: '31.33%'
-    },
-    {
-        height: '31.33%',
-        width: '31.33%'
-    },
-    {
-        height: '31.33%',
-        width: '31.33%'
-    },
-    { //9
-        height: '31.33%',
-        width: '31.33%'
-    },
-    {
-        height: '23%',
-        width: '31.33%'
-    },
-    {
-        height: '23%',
-        width: '31.33%'
-    },
-    {
-        height: '31.33%',
-        width: '23%'
-    },
-    {
-        height: '23%',
-        width: '23%'
-    },
-    {
-        height: '23%',
-        width: '23%'
-    },
-    {
-        height: '23%',
-        width: '23%'
-    },
-    {
-        height: '23%',
-        width: '23%'
-    },
-    {
-        height: '18%',
-        width: '23%'
-    },
-    {
-        height: '18%',
-        width: '23%'
-    },
-];
-
 // const gridOfVideos = [{
-//         height: '100%',
-//         width: '100%'
+//         height: '98%',
+//         width: '98%'
 //     },
 //     {
-//         height: '50%',
-//         width: '50%'
+//         height: '48%',
+//         width: '48%'
 //     },
 //     {
-//         height: '50%',
-//         width: '50%'
+//         height: '48%',
+//         width: '48%'
 //     },
 //     {
-//         height: '50%',
-//         width: '50%'
+//         height: '48%',
+//         width: '48%'
 //     },
 //     {
-//         height: '50%',
-//         width: '33.33%'
+//         height: '48%',
+//         width: '31.33%'
 //     },
 //     {
-//         height: '50%',
-//         width: '33.33%'
+//         height: '48%',
+//         width: '31.33%'
 //     },
 //     {
-//         height: '33.33%',
-//         width: '33.33%'
+//         height: '31.33%',
+//         width: '31.33%'
 //     },
 //     {
-//         height: '33.33%',
-//         width: '33.33%'
+//         height: '31.33%',
+//         width: '31.33%'
 //     },
 //     { //9
-//         height: '33.33%',
-//         width: '33.33%'
+//         height: '31.33%',
+//         width: '31.33%'
 //     },
 //     {
-//         height: '25%',
-//         width: '33.33%'
+//         height: '23%',
+//         width: '31.33%'
 //     },
 //     {
-//         height: '25%',
-//         width: '33.33%'
+//         height: '23%',
+//         width: '31.33%'
 //     },
 //     {
-//         height: '33.33%',
-//         width: '25%'
+//         height: '31.33%',
+//         width: '23%'
 //     },
 //     {
-//         height: '25%',
-//         width: '25%'
+//         height: '23%',
+//         width: '23%'
 //     },
 //     {
-//         height: '25%',
-//         width: '25%'
+//         height: '23%',
+//         width: '23%'
 //     },
 //     {
-//         height: '25%',
-//         width: '25%'
+//         height: '23%',
+//         width: '23%'
 //     },
 //     {
-//         height: '25%',
-//         width: '25%'
+//         height: '23%',
+//         width: '23%'
 //     },
 //     {
-//         height: '20%',
-//         width: '25%'
+//         height: '18%',
+//         width: '23%'
 //     },
 //     {
-//         height: '20%',
-//         width: '25%'
+//         height: '18%',
+//         width: '23%'
 //     },
 // ];
+
+const gridOfVideos = [{
+        height: '100%',
+        width: '100%'
+    },
+    {
+        height: '50%',
+        width: '50%'
+    },
+    {
+        height: '50%',
+        width: '50%'
+    },
+    {
+        height: '50%',
+        width: '50%'
+    },
+    {
+        height: '50%',
+        width: '33.33%'
+    },
+    {
+        height: '50%',
+        width: '33.33%'
+    },
+    {
+        height: '33.33%',
+        width: '33.33%'
+    },
+    {
+        height: '33.33%',
+        width: '33.33%'
+    },
+    { //9
+        height: '33.33%',
+        width: '33.33%'
+    },
+    {
+        height: '25%',
+        width: '33.33%'
+    },
+    {
+        height: '25%',
+        width: '33.33%'
+    },
+    {
+        height: '33.33%',
+        width: '25%'
+    },
+    {
+        height: '25%',
+        width: '25%'
+    },
+    {
+        height: '25%',
+        width: '25%'
+    },
+    {
+        height: '25%',
+        width: '25%'
+    },
+    {
+        height: '25%',
+        width: '25%'
+    },
+    {
+        height: '20%',
+        width: '25%'
+    },
+    {
+        height: '20%',
+        width: '25%'
+    },
+];
 
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -361,12 +361,14 @@ function addVideoStream(grid, stream, color, userId) {
     } else {
 
         const div = document.createElement('div');
+        div.style.padding = '5px';
+        const div1 = document.createElement('div');
         div.setAttribute('id', `c${userId}`);
-        div.classList.add('box-position');
+        div1.classList.add('box-position');
         // div.style.borderRadius = `10px`;
         // div.style.border = `2px solid #ff4151`;
 
-        div.innerHTML = `<div style="position: absolute; right: 10px; z-index: 2;" id="${userId}" onclick="resize(id)">
+        div1.innerHTML = `<div style="position: absolute; right: 10px; z-index: 2;" id="${userId}" onclick="resize(id)">
         <i class="fas fa-expand"></i>
         </div>`;
 
@@ -384,12 +386,14 @@ function addVideoStream(grid, stream, color, userId) {
 
             if (color === 'green') {
                 div.setAttribute('id', `ca${userId}`);
-                div.childNodes[0].setAttribute('id', `a${userId}`);
-                div.appendChild(video);
+                div1.childNodes[0].setAttribute('id', `a${userId}`);
+                div.appendChild(div1);
+                div1.appendChild(video);
                 grid.append(div);
             }
         } else {
-            div.appendChild(video);
+            div.appendChild(div1);
+            div1.appendChild(video);
             grid.append(div);
         }
     }
