@@ -19,79 +19,152 @@ let myVideoStream;
 let callList = [];
 
 const gridOfVideos = [{
-        height: '100%',
-        width: '100%'
+        height: '97.5%',
+        width: '97.5%'
     },
     {
-        height: '50%',
-        width: '50%'
+        height: '47.5%',
+        width: '47.5%'
     },
     {
-        height: '50%',
-        width: '50%'
+        height: '47.5%',
+        width: '47.5%'
     },
     {
-        height: '50%',
-        width: '50%'
+        height: '47.5%',
+        width: '47.5%'
     },
     {
-        height: '50%',
-        width: '33.33%'
+        height: '47.5%',
+        width: '30.83%'
     },
     {
-        height: '50%',
-        width: '33.33%'
+        height: '47.5%',
+        width: '30.83%'
     },
     {
-        height: '33.33%',
-        width: '33.33%'
+        height: '30.83%',
+        width: '30.83%'
     },
     {
-        height: '33.33%',
-        width: '33.33%'
+        height: '30.83%',
+        width: '30.83%'
     },
     { //9
-        height: '33.33%',
-        width: '33.33%'
+        height: '30.83%',
+        width: '30.83%'
     },
     {
-        height: '25%',
-        width: '33.33%'
+        height: '22.5%',
+        width: '30.83%'
     },
     {
-        height: '25%',
-        width: '33.33%'
+        height: '22.5%',
+        width: '30.83%'
     },
     {
-        height: '33.33%',
-        width: '25%'
+        height: '30.83%',
+        width: '22.5%'
     },
     {
-        height: '25%',
-        width: '25%'
+        height: '22.5%',
+        width: '22.5%'
     },
     {
-        height: '25%',
-        width: '25%'
+        height: '22.5%',
+        width: '22.5%'
     },
     {
-        height: '25%',
-        width: '25%'
+        height: '22.5%',
+        width: '22.5%'
     },
     {
-        height: '25%',
-        width: '25%'
+        height: '22.5%',
+        width: '22.5%'
     },
     {
-        height: '20%',
-        width: '25%'
+        height: '17.5%',
+        width: '22.5%'
     },
     {
-        height: '20%',
-        width: '25%'
+        height: '17.5',
+        width: '22.5%'
     },
-
 ];
+
+// const gridOfVideos = [{
+//         height: '100%',
+//         width: '100%'
+//     },
+//     {
+//         height: '50%',
+//         width: '50%'
+//     },
+//     {
+//         height: '50%',
+//         width: '50%'
+//     },
+//     {
+//         height: '50%',
+//         width: '50%'
+//     },
+//     {
+//         height: '50%',
+//         width: '33.33%'
+//     },
+//     {
+//         height: '50%',
+//         width: '33.33%'
+//     },
+//     {
+//         height: '33.33%',
+//         width: '33.33%'
+//     },
+//     {
+//         height: '33.33%',
+//         width: '33.33%'
+//     },
+//     { //9
+//         height: '33.33%',
+//         width: '33.33%'
+//     },
+//     {
+//         height: '25%',
+//         width: '33.33%'
+//     },
+//     {
+//         height: '25%',
+//         width: '33.33%'
+//     },
+//     {
+//         height: '33.33%',
+//         width: '25%'
+//     },
+//     {
+//         height: '25%',
+//         width: '25%'
+//     },
+//     {
+//         height: '25%',
+//         width: '25%'
+//     },
+//     {
+//         height: '25%',
+//         width: '25%'
+//     },
+//     {
+//         height: '25%',
+//         width: '25%'
+//     },
+//     {
+//         height: '20%',
+//         width: '25%'
+//     },
+//     {
+//         height: '20%',
+//         width: '25%'
+//     },
+// ];
 
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -203,7 +276,7 @@ function connectToNewUser(userId, stream, users, flag = false) {
                 if (!flag) {
                     addVideoStream(grid, userVideoStream, `green`, call.peer);
                 } else {
-                    removeVideo(userId);
+                    removeVideo(`ca${userId}`);
                 }
                 callList[call.peer] = call;
             }
@@ -225,9 +298,10 @@ function removeVideo(userId) {
     let index = 0;
     for (let i = 0; i < videoGrid1.childNodes.length; i++) {
         let tempId = videoGrid1.childNodes[i].getAttribute('id');
-        if (tempId === `ca${userId}`) {
+        if (tempId === userId) {
             index = i;
-            break;
+        } else {
+            videoGrid1.childNodes[i].style.display = 'block';
         }
     }
     videoGrid1.removeChild(videoGrid1.childNodes[index]);
@@ -240,17 +314,30 @@ socket.on('user-disconnected', (userId, userName, users) => {
 
     createParticipantList(users)
 
-    let index = 0;
-    for (let i = 0; i < videoGrid1.childNodes.length; i++) {
-        let tempId = videoGrid1.childNodes[i].getAttribute('id');
-        if (tempId === `c${userId}`) {
-            index = i;
-            break;
-        }
-    }
-    videoGrid1.removeChild(videoGrid1.childNodes[index]);
+    removeVideo(`c${userId}`);
+    removeVideo(`ca${userId}`)
 
-    gridCheck();
+    // let index = 0;
+    // for (let i = 0; i < videoGrid1.childNodes.length; i++) {
+    //     let tempId = videoGrid1.childNodes[i].getAttribute('id');
+    //     if (tempId === `c${userId}`) {
+    //         index = i;
+    //         break;
+    //     }
+    // }
+    // videoGrid1.removeChild(videoGrid1.childNodes[index]);
+
+    // index = 0;
+    // for (let i = 0; i < videoGrid1.childNodes.length; i++) {
+    //     let tempId = videoGrid1.childNodes[i].getAttribute('id');
+    //     if (tempId === `ca${userId}`) {
+    //         index = i;
+    //         break;
+    //     }
+    // }
+    // videoGrid1.removeChild(videoGrid1.childNodes[index]);
+
+    // gridCheck();
 });
 
 
@@ -263,8 +350,11 @@ function addVideoStream(grid, stream, color, userId) {
         video.play();
     })
 
+    // video.style.border = `2px solid ${color}`;
+    // video.style.border = `2px solid #ff4151`;
+
     if (grid === videoGrid2) {
-        video.style.border = `2px solid ${color}`;
+
         video.volume = 0;
         video.setAttribute('id', `${userId}`);
         grid.append(video);
@@ -273,9 +363,8 @@ function addVideoStream(grid, stream, color, userId) {
         const div = document.createElement('div');
         div.setAttribute('id', `c${userId}`);
         div.classList.add('box-position');
-
-        div.style.border = `2px solid ${color}`;
-        div.style.borderRadius = `10px`;
+        // div.style.borderRadius = `10px`;
+        // div.style.border = `2px solid #ff4151`;
 
         div.innerHTML = `<div style="position: absolute; right: 10px; z-index: 2;" id="${userId}" onclick="resize(id)">
         <i class="fas fa-expand"></i>
@@ -326,6 +415,7 @@ function resize(e) {
     div.innerHTML = '<i class="fas fa-compress"></i>';
     div.style.position = 'absolute';
     div.style.left = '10px';
+    div.style.top = '0';
     div.style.zIndex = '2';
 
     div.setAttribute('onclick', `back('${e}')`);
