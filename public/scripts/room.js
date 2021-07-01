@@ -231,6 +231,8 @@ function removeVideo(userId) {
         }
     }
     videoGrid1.removeChild(videoGrid1.childNodes[index]);
+
+    gridCheck();
 }
 
 socket.on('user-disconnected', (userId, userName, users) => {
@@ -247,6 +249,8 @@ socket.on('user-disconnected', (userId, userName, users) => {
         }
     }
     videoGrid1.removeChild(videoGrid1.childNodes[index]);
+
+    gridCheck();
 });
 
 
@@ -300,6 +304,8 @@ function addVideoStream(grid, stream, color, userId) {
             grid.append(div);
         }
     }
+
+    gridCheck();
 }
 
 function resize(e) {
@@ -564,6 +570,6 @@ function notifications() {
 }
 
 setInterval(function() {
-    gridCheck();
+    // gridCheck();
     notifications();
 }, 100);

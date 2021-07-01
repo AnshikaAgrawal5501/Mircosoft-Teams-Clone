@@ -207,6 +207,7 @@ a {
     width: 100%;
     display: flex;
     justify-content: center;
+    /* background-color: #7c84ec; */
 }
 
 .resize {
