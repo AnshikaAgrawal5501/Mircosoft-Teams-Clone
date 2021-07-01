@@ -14,10 +14,6 @@
     width: 100%;
 }
 
-#video-grid-1 video {
-    /* width: 100%; */
-}
-
 #video-grid-2 {
     height: 17vh;
     width: 100%;
@@ -29,6 +25,9 @@
 
 video {
     height: 100%;
+}
+
+#video-grid-1 video {
     width: 100%;
 }
 
