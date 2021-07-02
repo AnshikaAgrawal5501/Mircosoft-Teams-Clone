@@ -1,21 +1,21 @@
-// let copyText = document.getElementById("roomId");
-// console.log(copyText.value)
+const cid = document.getElementById('copyId');
+const curl = document.getElementById('copyUrl');
+const copyText = document.getElementById("roomId");
+
+cid.addEventListener('click', copyId);
+curl.addEventListener('click', copyUrl);
 
 function copyId() {
-    let copyText = document.getElementById("roomId");
+
     console.log(copyText.value)
     copyText.select();
     copyText.setSelectionRange(0, 99999)
     document.execCommand("copy");
-    // console.log(copyText);
 }
 
 function copyUrl() {
-    let copyText = document.getElementById("roomId");
 
-    console.log("=>>> ", copyText);
-
-    copyText.value = `http://localhost:3000/${copyText.value}`;
+    copyText.value = `http://microsoft-teams-clone-5501.herokuapp.com/room/${copyText.value}`;
 
     console.log(copyText.value);
 
@@ -23,11 +23,3 @@ function copyUrl() {
     copyText.setSelectionRange(0, 99999)
     document.execCommand("copy");
 }
-
-// function copied(copyText) {
-//     copyText.select();
-//     copyText.setSelectionRange(0, 99999)
-//     document.execCommand("copy");
-//     copyText = null;
-//     console.log(copyText);
-// }

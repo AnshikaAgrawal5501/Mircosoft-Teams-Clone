@@ -57,10 +57,6 @@ app.post('/joinRoom', function(req, res) {
 
 // ---------------------- Room --------------------------
 
-// app.get('/form', function(req, res) {
-//     res.render('form');
-// });
-
 app.get('/form', function(req, res) {
     res.render('form', { roomId: rrd || ord });
 });

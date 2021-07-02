@@ -8,6 +8,9 @@
     right: 5px;
     width: min-content;
     color: #9fa4a8;
+    background-color: white;
+    border-top-color: #ced4da;
+    border-bottom-color: #ced4da;
 }
 
 .share:hover {
