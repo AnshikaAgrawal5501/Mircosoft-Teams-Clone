@@ -1,51 +1,121 @@
 <%- include('partials/header') -%>
     <link rel="stylesheet" href="/css/create_room.css">
 
-    <div class="row">
-
-        <div class="col-md-6">
-            <img src="/images/create_room.jpg" alt="" class="img-fluid d-block mx-auto">
-        </div>
+    <%- include('partials/header1') -%>
 
 
-        <div class="col-md-6 d-flex flex-column my-auto">
-            <h1>Room Id - </h1>
+        <div class="row">
 
-            <div class="form-group">
-                <input type="text" class="form-control" id="roomId" value="<%= roomId %>">
+            <div class="col-md-6">
+                <h4>Room Id - </h4>
 
-                <button type="button" class="btn share" data-toggle="modal" data-target="#myModal">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="roomId" value="<%= roomId %>">
+
+                    <button type="button" class="btn share" data-toggle="modal" data-target="#myModal">
                 <i class="fas fa-share-alt"></i>
               </button>
+                </div>
+
+                <div class="d-flex justify-content-center"><a class="btn btn-primary mb-2" href="/form">Join</a></div>
+
+                <img src="/images/create_room.jpg" alt="" class="img-fluid d-block mx-auto">
             </div>
 
-            <div class="d-flex justify-content-center"><a class="btn btn-primary" href="/form">Join</a></div>
-        </div>
-    </div>
+            <div class="col-md-6 content">
 
-    <!-- The Modal -->
-    <div class="modal fade" id="myModal">
-        <div class="modal-dialog modal-sm modal-dialog-centered">
-            <div class="modal-content">
-
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <div class="p-5">
-                        <div class="row">
-                            <div class="col-6">Room Id</div>
-                            <div class="col-6"><i class="far fa-copy" onclick="copyId()"></i></div>
-                            <div class="col-6">Url</div>
-                            <div class="col-6"><i class="far fa-copy" onclick="copyUrl()"></i></div>
+                <div class="data">
+                    <div class="row">
+                        <div class="col-2"><i class="far fa-calendar-alt"></i></div>
+                        <div class="col-10">
+                            <h3> Keep everyone in the know</h3>
                         </div>
                     </div>
 
+                    <p>
+                        Share your meeting agenda when sending out Microsoft Teams meeting invites and chat with attendees before meetings.
+                    </p>
+                </div>
+
+                <div class="data">
+                    <div class="row">
+                        <div class="col-2"><i class="fas fa-desktop"></i></div>
+                        <div class="col-10">
+                            <h3> Start meetings quickly with Microsoft Teams Rooms</h3>
+                        </div>
+                    </div>
+
+                    <p>
+                        Start meetings on time with one-touch, experience-rich HD audio and video, and share content with the room and remote participants easily.
+                    </p>
+                </div>
+
+                <div class="data">
+                    <div class="row">
+                        <div class="col-2"><i class="fas fa-video"></i></div>
+                        <div class="col-10">
+                            <h3> Turn on video to make it more personal</h3>
+                        </div>
+                    </div>
+
+                    <p>
+                        Preset video and audio when joining. Turn on video to better engage remote attendees.
+                    </p>
+                </div>
+
+                <div class="data">
+                    <div class="row">
+                        <div class="col-2"><i class="fas fa-upload"></i></div>
+                        <div class="col-10">
+                            <h3> Share content that’s at your fingertips and collaborate</h3>
+                        </div>
+                    </div>
+
+                    <p>
+                        Share your content and collaborate easily during your meeting
+                    </p>
+                </div>
+
+                <div class="data">
+                    <div class="row">
+                        <div class="col-2"><i class="far fa-comments"></i></div>
+                        <div class="col-10">
+                            <h3> Chat with attendees</h3>
+                        </div>
+                    </div>
+
+                    <p>
+                        Discuss the content of the meeting via messages for more clarity.
+                    </p>
+                </div>
+            </div>
+
+
+        </div>
+
+        <!-- The Modal -->
+        <div class="modal fade" id="myModal">
+            <div class="modal-dialog modal-sm modal-dialog-centered">
+                <div class="modal-content">
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <div class="p-5">
+                            <div class="row">
+                                <div class="col-6">Room Id</div>
+                                <div class="col-6"><i class="far fa-copy" onclick="copyId()"></i></div>
+                                <div class="col-6">Url</div>
+                                <div class="col-6"><i class="far fa-copy" onclick="copyUrl()"></i></div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
 
-    <script src="/scripts/create_room.js"></script>
+        <script src="/scripts/create_room.js"></script>
 
-    <%- include('partials/footer') -%>
+        <%- include('partials/footer') -%>

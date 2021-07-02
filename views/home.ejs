@@ -1,18 +1,137 @@
 <%- include('partials/header') -%>
 
-    <div class="row">
-        <div class="col-md-6 text-center d-flex flex-column my-auto">
-            <div>
-                <p>Meet, chat, call, and collaborate in just one place.</p>
-            </div>
-            <div class="d-flex justify-content-center flex-wrap">
-                <a href="/joinRoom" class="btn btn-outline-primary m-2">Join Meeting</a>
-                <a href="/createRoom" class="btn btn-outline-primary m-2">Create Meeting</a>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <img src="images/home_video_call.jpg" alt="" class="img-fluid d-block mx-auto">
-        </div>
-    </div>
+    <body class="d-flex flex-column justify-content-between">
 
-    <%- include('partials/footer') -%>
+        <div>
+
+            <!-- Header -->
+
+            <div class="jumbotron jumbotron-fluid">
+
+                <div class="container">
+
+                    <div class="row">
+                        <div class="col-6 d-flex flex-column">
+                            <img src="/images/teams_logo.png" alt="" class="logo m-3">
+                            <p class="navbar-brand">Mircosoft Teams</p>
+                        </div>
+
+                        <div class="col-6 text-center d-flex flex-column my-auto">
+                            <div>
+                                <h1>Meet, chat, call, and collaborate in just one place.</h1>
+                            </div>
+                            <div class="d-flex justify-content-center flex-wrap">
+                                <a href="/joinRoom" class="btn btn-outline-primary m-2">Join Meeting</a>
+                                <a href="/createRoom" class="btn btn-outline-primary m-2">Create Meeting</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main content -->
+
+            <div class="container main">
+
+                <div class="row">
+                    <div class="col-md-6 text-center d-flex flex-column my-auto">
+                        <h1>Life’s better when we get together</h1>
+                        <p>
+                            Now bring colleagues, family and friends together to call, chat, and make plans — all in one place.
+                            <br> Invite anyone with a room id to join your meeting. Increase your productivity and work together in real time with your favorite Office apps, screen sharing and meeting chats. Meeting can hold a maximum capicity of 10 members.
+                        </p>
+                    </div>
+
+                    <div class="col-md-6">
+                        <img src="images/image1.jpg" alt="" class="img-fluid d-block mx-auto">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <img src="images/image2.jpg" alt="" class="img-fluid d-block mx-auto">
+                    </div>
+
+                    <div class="col-md-6 text-center d-flex flex-column my-auto">
+
+                        <h1>Video calls that will make you forget you’re apart</h1>
+                        <p>
+                            Getting together with people in Microsoft Teams is almost as fun and as real as it gets without being there in person. Talk all day for free. Create instant video meetings and invite anyone.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 text-center d-flex flex-column my-auto">
+
+                        <h1>Instant messaging</h1>
+                        <p>
+                            Keep the team connected no matter where work takes you with Microsoft Teams. Chats that bring plans to life, plan together in chats and get help managing tasks big or small.
+                        </p>
+                    </div>
+
+                    <div class="col-md-6">
+                        <img src="images/image3.jpg" alt="" class="img-fluid d-block mx-auto">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <img src="images/image4.jpg" alt="" class="img-fluid d-block mx-auto">
+                    </div>
+
+                    <div class="col-md-6 text-center d-flex flex-column my-auto">
+
+                        <h1>Screen sharing</h1>
+                        <p>
+                            Enhance meetings and boost productivity by sharing your screen in Microsoft Teams. Work together from anywhere, on any device, simply by sharing your screen while participating in a Teams call or meeting. Look at content collectively, even when you’re
+                            apart.
+                        </p>
+                    </div>
+
+                    <div class="col text-center">
+
+                        <div class="row">
+                            <div class="col-4">
+                                <h3>Keep everyone on the same page</h3>
+                                <hr>
+                                <p>
+                                    Clarify communication in a chat or meeting by sharing your screen so everyone can see the same content at the same time. All the memebers can also share screen at the same time.
+                                </p>
+                            </div>
+
+                            <div class="col-4">
+                                <h3>Choose what you share</h3>
+                                <hr>
+                                <p>
+                                    Select exactly what you want others to see—whether it’s your desktop, a browser window, a specific app, or file. It’s simple with the screen sharing feature in Teams.
+                                </p>
+                            </div>
+
+                            <div class="col-4">
+                                <h3>Collaborate easily</h3>
+                                <hr>
+                                <p>
+                                    Increase collaboration in meetings by letting anyone share their screen. When someone is finished presenting and stops sharing their screen, other participants can begin.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 text-center d-flex flex-column my-auto">
+
+                        <h1>Webinars and online meetings</h1>
+                        <p>
+                            Work remotely and securely with Microsoft Teams. Make meetings more personal and encourage teamwork when you virtually meet face-to-face. Meet in any situation, whether you’re calling one-on-one, delivering a sales pitch, hosting a team training, or running
+                            a company-wide town hall.
+                        </p>
+                    </div>
+
+                    <div class="col-md-6">
+                        <img src="images/image5.jpg" alt="" class="img-fluid d-block mx-auto">
+                    </div>
+                </div>
+
+                <%- include('partials/footer') -%>

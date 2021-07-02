@@ -1,17 +1,18 @@
 <%- include('partials/header') -%>
+    <%- include('partials/header1') -%>
 
-    <form action="/joinRoom" method="POST">
+        <form action="/joinRoom" method="POST">
 
-        <div class="row">
-            <div class="col">
-                <input type="text" class="form-control" id="roomId" placeholder="Enter room Id" name="roomId">
+            <div class="row">
+                <div class="col">
+                    <input type="text" class="form-control" id="roomId" placeholder="Enter room Id" name="roomId">
+                </div>
+                <div class="col">
+                    <button type="submit" class="btn btn-primary">Join</button>
+                </div>
             </div>
-            <div class="col">
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-        </div>
 
 
-    </form>
+        </form>
 
-    <%- include('partials/footer') -%>
+        <%- include('partials/footer') -%>

@@ -17,3 +17,25 @@
 .share:focus {
     box-shadow: none !important;
 }
+
+.col-md-6 {
+    padding: 0 50px;
+}
+
+.data {
+    margin-bottom: 50px;
+}
+
+.data .row {
+    margin-bottom: 10px;
+}
+
+.data i {
+    font-size: 30px;
+    color: #7c84ec;
+}
+
+.col-2 {
+    display: flex;
+    align-self: center;
+}

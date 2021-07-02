@@ -2,6 +2,10 @@ body {
     height: 100vh;
 }
 
+.jumbotron {
+    padding: 2rem;
+}
+
 .logo {
     height: 100px;
     width: 100px;
@@ -37,15 +41,34 @@ body {
     border-radius: 2px;
 }
 
+.main .row {
+    margin: 50px 0;
+}
+
+.col-4 h3 {
+    height: 70px;
+}
+
 .footer {
+    margin-top: 75px;
     padding: 50px 0;
 }
 
-.lead {
+p {
     margin-bottom: 0;
+    font-size: 15px;
 }
 
-.contacts i {
-    padding: 5px;
+.contacts div {
+    margin-bottom: 20px;
+}
+
+.contacts div a {
+    padding-right: 10px;
     font-size: 20px;
+    color: black;
+}
+
+.microsoft-logo {
+    height: 100px;
 }
