@@ -202,20 +202,26 @@ a {
 }
 
 .box-position {
-    /* box-sizing: margin-box;
-    margin: 1%; */
     box-sizing: border-box;
     position: relative;
     height: 100%;
     width: 100%;
     display: flex;
     justify-content: center;
-    background-color: #f7b8bd;
-    border: 2px solid #ff4151;
+    /* background-color: #f7b8bd; */
+    /* border: 2px solid #ff4151; */
+    border: 2px solid #7c84ec;
     border-radius: 10px;
 }
 
 .resize {
     width: 100% !important;
     height: 100% !important;
+}
+
+.compress {
+    position: absolute;
+    top: 0;
+    left: 10px;
+    z-index: 2;
 }

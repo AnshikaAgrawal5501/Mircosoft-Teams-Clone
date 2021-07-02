@@ -36,3 +36,16 @@ body {
     background: rgb(173, 168, 168);
     border-radius: 2px;
 }
+
+.footer {
+    padding: 50px 0;
+}
+
+.lead {
+    margin-bottom: 0;
+}
+
+.contacts i {
+    padding: 5px;
+    font-size: 20px;
+}

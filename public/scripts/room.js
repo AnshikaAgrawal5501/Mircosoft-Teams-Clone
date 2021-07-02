@@ -18,80 +18,6 @@ let myVideoStream;
 
 let callList = [];
 
-// const gridOfVideos = [{
-//         height: '98%',
-//         width: '98%'
-//     },
-//     {
-//         height: '48%',
-//         width: '48%'
-//     },
-//     {
-//         height: '48%',
-//         width: '48%'
-//     },
-//     {
-//         height: '48%',
-//         width: '48%'
-//     },
-//     {
-//         height: '48%',
-//         width: '31.33%'
-//     },
-//     {
-//         height: '48%',
-//         width: '31.33%'
-//     },
-//     {
-//         height: '31.33%',
-//         width: '31.33%'
-//     },
-//     {
-//         height: '31.33%',
-//         width: '31.33%'
-//     },
-//     { //9
-//         height: '31.33%',
-//         width: '31.33%'
-//     },
-//     {
-//         height: '23%',
-//         width: '31.33%'
-//     },
-//     {
-//         height: '23%',
-//         width: '31.33%'
-//     },
-//     {
-//         height: '31.33%',
-//         width: '23%'
-//     },
-//     {
-//         height: '23%',
-//         width: '23%'
-//     },
-//     {
-//         height: '23%',
-//         width: '23%'
-//     },
-//     {
-//         height: '23%',
-//         width: '23%'
-//     },
-//     {
-//         height: '23%',
-//         width: '23%'
-//     },
-//     {
-//         height: '18%',
-//         width: '23%'
-//     },
-//     {
-//         height: '18%',
-//         width: '23%'
-//     },
-// ];
-
 const gridOfVideos = [{
         height: '100%',
         width: '100%'
@@ -229,7 +155,10 @@ peer.on('connection', function(conn) {
 });
 
 function popoverActivate() {
-    $('[data-toggle="popover"]').popover();
+    $('[data-toggle="popover"]').popover({
+        html: true,
+        sanitize: false,
+    })
 }
 
 function createListElement(userName, fname, lname, email, phone) {
@@ -237,7 +166,7 @@ function createListElement(userName, fname, lname, email, phone) {
 
     list.innerHTML = `
     <a href="#" class="pops" title="${fname} ${lname}" data-toggle="popover" 
-    data-placement="bottom" data-trigger="hover" data-content="Email: ${email} 
+    data-placement="bottom" data-html="true" data-trigger="hover" data-content="Email: ${email}<br>
     Contact no. : ${phone}" onclick="popoverActivate()">
     ${userName}
     </a>
@@ -315,29 +244,7 @@ socket.on('user-disconnected', (userId, userName, users) => {
     createParticipantList(users)
 
     removeVideo(`c${userId}`);
-    removeVideo(`ca${userId}`)
-
-    // let index = 0;
-    // for (let i = 0; i < videoGrid1.childNodes.length; i++) {
-    //     let tempId = videoGrid1.childNodes[i].getAttribute('id');
-    //     if (tempId === `c${userId}`) {
-    //         index = i;
-    //         break;
-    //     }
-    // }
-    // videoGrid1.removeChild(videoGrid1.childNodes[index]);
-
-    // index = 0;
-    // for (let i = 0; i < videoGrid1.childNodes.length; i++) {
-    //     let tempId = videoGrid1.childNodes[i].getAttribute('id');
-    //     if (tempId === `ca${userId}`) {
-    //         index = i;
-    //         break;
-    //     }
-    // }
-    // videoGrid1.removeChild(videoGrid1.childNodes[index]);
-
-    // gridCheck();
+    removeVideo(`ca${userId}`);
 });
 
 
@@ -348,10 +255,7 @@ function addVideoStream(grid, stream, color, userId) {
 
     video.addEventListener('loadedmetadata', () => {
         video.play();
-    })
-
-    // video.style.border = `2px solid ${color}`;
-    // video.style.border = `2px solid #ff4151`;
+    });
 
     if (grid === videoGrid2) {
 
@@ -365,8 +269,6 @@ function addVideoStream(grid, stream, color, userId) {
         const div1 = document.createElement('div');
         div.setAttribute('id', `c${userId}`);
         div1.classList.add('box-position');
-        // div.style.borderRadius = `10px`;
-        // div.style.border = `2px solid #ff4151`;
 
         div1.innerHTML = `<div style="position: absolute; right: 10px; z-index: 2;" id="${userId}" onclick="resize(id)">
         <i class="fas fa-expand"></i>
@@ -417,14 +319,12 @@ function resize(e) {
 
     const div = document.createElement('div');
     div.innerHTML = '<i class="fas fa-compress"></i>';
-    div.style.position = 'absolute';
-    div.style.left = '10px';
-    div.style.top = '0';
-    div.style.zIndex = '2';
+    div.classList.add('compress');
+
 
     div.setAttribute('onclick', `back('${e}')`);
 
-    box.appendChild(div);
+    box.childNodes[0].appendChild(div);
 }
 
 function back(e) {
@@ -444,7 +344,7 @@ function back(e) {
 
     box.classList.remove('resize');
     console.log(box, box.childNodes);
-    box.removeChild(box.childNodes[2]);
+    box.childNodes[0].removeChild(box.childNodes[0].childNodes[2]);
 
     gridCheck();
 }

@@ -88,8 +88,6 @@ app.post('/form', function(req, res) {
 
 app.get('/room/:roomId', function(req, res) {
 
-    // try {
-    // console.log(req)
     const roomId = req.params.roomId;
 
     if (counter >= 10) {
@@ -104,10 +102,6 @@ app.get('/room/:roomId', function(req, res) {
             userName: users[users.length - 1].nname,
         });
     }
-
-    // } catch (e) {
-    //     res.redirect('/form');
-    // }
 });
 
 
