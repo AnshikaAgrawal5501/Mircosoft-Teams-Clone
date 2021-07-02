@@ -40,7 +40,8 @@ video {
     padding-bottom: 10px;
 }
 
-.form-group {
+
+/* .form-group {
     position: relative;
 }
 
@@ -61,7 +62,7 @@ video {
 
 .share:focus {
     box-shadow: none !important;
-}
+} */
 
 .chat-area,
 .user-list,
@@ -70,7 +71,8 @@ video {
     padding: 0;
 }
 
-.form-group {
+
+/* .form-group {
     position: relative;
 }
 
@@ -88,7 +90,7 @@ video {
 
 #send:focus {
     box-shadow: none !important;
-}
+} */
 
 .nav-tabs {
     padding-top: 5px;

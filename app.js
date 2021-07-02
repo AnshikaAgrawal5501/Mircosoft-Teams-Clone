@@ -45,23 +45,18 @@ app.get('/joinRoom', function(req, res) {
 
 // ---------------------- Join Room (post) --------------------------
 
-let rrd;
-
 app.post('/joinRoom', function(req, res) {
     const requestedroomId = req.body.roomId;
-    rrd = requestedroomId
-        // res.redirect(`/${requestedroomId}`);
-    res.render('form', { roomId: requestedroomId });
+    res.redirect(`/form/${requestedroomId}`);
 });
-
 
 // ---------------------- Room --------------------------
 
-app.get('/form', function(req, res) {
-    res.render('form', { roomId: rrd || ord });
+app.get('/form/:roomId', function(req, res) {
+    res.render('form', { roomId: req.params.roomId });
 });
 
-app.post('/form', function(req, res) {
+app.post('/form/:roomId', function(req, res) {
 
     const obj = {
         fname: req.body.fname,
@@ -76,10 +71,10 @@ app.post('/form', function(req, res) {
     }
 
     users.push(obj);
-    console.log("line 69", users)
+    console.log("line 74", users)
         // console.log(req)
 
-    res.redirect(`/room/${req.body.roomId}`);
+    res.redirect(`/room/${req.params.roomId}`);
 });
 
 app.get('/room/:roomId', function(req, res) {
@@ -101,8 +96,6 @@ app.get('/room/:roomId', function(req, res) {
 });
 
 
-
-
 io.on('connection', socket => {
     socket.on('join-room', (roomId, userId, userName) => {
 
@@ -111,7 +104,7 @@ io.on('connection', socket => {
         socket.join(roomId);
 
         counter++;
-        console.log("line 104 ", counter, users);
+        console.log("line 107 ", counter, users);
 
         socket.to(roomId).emit('user-connected', userId, userName, users);
 

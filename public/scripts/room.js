@@ -406,7 +406,7 @@ function sendMsg() {
 socket.on('createMessage', (msg, userId, userName) => {
 
     if (!document.getElementById('chat').classList.contains('active')) {
-        document.getElementById('chat-noti').innerHTML = '<i class="fas fa-dot-circle"></i>';
+        document.getElementById('chat-noti').innerHTML = '•';
     }
 
     chatBox(msg, '#4f58ca', 'start', userName);

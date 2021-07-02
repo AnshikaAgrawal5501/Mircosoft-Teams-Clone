@@ -31,7 +31,7 @@
 
             <div class="col-md-6 d-flex flex-column my-auto" style="border-left: 2px solid grey; padding-left: 50px;">
 
-                <form action="/form" method="post">
+                <form action="/form/<%= roomId %>" method="post">
                     <div class="form-row">
                         <div class="col">
                             <div class="form-group">
@@ -70,7 +70,6 @@
                         </div>
                     </div>
 
-                    <input type="hidden" value="<%= roomId %>" name="roomId">
                     <input type="reset" value="Reset" class="btn btn-success" style="width: 120px;">
                     <button type="submit" class="btn btn-danger" style="width: 120px;">Submit</button>
                 </form>
