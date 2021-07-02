@@ -37,12 +37,16 @@ body {
 /* Handle */
 
  ::-webkit-scrollbar-thumb {
-    background: rgb(173, 168, 168);
+    background: #bfd2fb;
     border-radius: 2px;
 }
 
 .main .row {
     margin: 50px 0;
+}
+
+h1 {
+    margin-bottom: 20px;
 }
 
 .col-4 h3 {
@@ -52,6 +56,10 @@ body {
 .footer {
     margin-top: 75px;
     padding: 50px 0;
+}
+
+.name {
+    font-size: 25px;
 }
 
 p {
