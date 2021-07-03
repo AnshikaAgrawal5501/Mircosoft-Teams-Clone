@@ -20,7 +20,6 @@ app.use('/peerjs', peerServer);
 
 let counter = 0;
 let users = [];
-let ord;
 
 // ---------------------- Home --------------------------
 
@@ -70,11 +69,30 @@ app.post('/form/:roomId', function(req, res) {
         obj.nname = obj.fname
     }
 
-    users.push(obj);
-    console.log("line 74", users)
-        // console.log(req)
+    let flag = false;
 
-    res.redirect(`/room/${req.params.roomId}`);
+    for (let i = 0; i < users.length; i++) {
+        if (users[i].fname === obj.fname && users[i].nname === obj.nname) {
+            flag = true;
+            console.log("user found with same name")
+            break;
+        }
+    }
+
+    console.log("line 86", !flag)
+
+    if (!flag) {
+        users.push(obj);
+        console.log("users-form", users)
+
+        res.redirect(`/room/${req.params.roomId}`);
+    } else {
+        res.redirect(`/errorName/${req.params.roomId}`);
+    }
+});
+
+app.get('/errorName/:roomId', function(req, res) {
+    res.render('errorName', { roomId: req.params.roomId })
 });
 
 // ---------------------- Room --------------------------
@@ -112,7 +130,7 @@ io.on('connection', socket => {
         socket.join(roomId);
 
         counter++;
-        console.log("line 107 ", counter, users);
+        console.log("peer-connection", counter, users);
 
         socket.to(roomId).emit('user-connected', userId, userName, users);
 

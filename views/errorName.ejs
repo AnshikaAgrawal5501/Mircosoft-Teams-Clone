@@ -1,0 +1,21 @@
+<%- include('partials/header') -%>
+
+    <body class="d-flex flex-column justify-content-center">
+
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-6 my-auto error">
+                    <h1>Oops!</h1>
+                    <h3>Someone in meeting is using the same user name and nick name. Please change either of them.</h3>
+                    <a href="/form/<%= roomId %>" class="btn btn-outline-primary">Back</a>
+                </div>
+
+                <div class="col-md-6">
+                    <img src="/images/error.jpg" alt="" class="img-fuild">
+                </div>
+            </div>
+        </div>
+    </body>
+
+    </html>
