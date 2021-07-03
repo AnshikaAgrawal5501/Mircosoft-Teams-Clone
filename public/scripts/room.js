@@ -112,6 +112,8 @@ let constraints = {
 
 peer.on('open', id => {
 
+    sound('join');
+
     console.log(USER_NAME);
     createListElement(USER_NAME, USER_FNAME, USER_LNAME, USER_EMAIL, USER_PHONE);
 
@@ -185,9 +187,10 @@ function createParticipantList(users) {
 
 socket.on('user-connected', (userId, userName, users) => {
 
+    sound('join')
+
     createParticipantList(users)
     connectToNewUser(userId, myVideoStream, users);
-
 });
 
 function connectToNewUser(userId, stream, users, flag = false) {
@@ -238,13 +241,23 @@ function removeVideo(userId) {
     gridCheck();
 }
 
+function leave() {
+    sound('leave');
+
+    setTimeout(function() {
+        window.location.href = '/';
+    }, 1500);
+}
+
 socket.on('user-disconnected', (userId, userName, users) => {
     console.log(`${userName} left`);
+    sound('disconnect');
 
     createParticipantList(users)
 
     removeVideo(`c${userId}`);
     removeVideo(`ca${userId}`);
+
 });
 
 
@@ -410,6 +423,8 @@ socket.on('createMessage', (msg, userId, userName) => {
     }
 
     chatBox(msg, '#4f58ca', 'start', userName);
+
+    sound('message');
 });
 
 
@@ -577,3 +592,8 @@ setInterval(function() {
     // gridCheck();
     notifications();
 }, 100);
+
+function sound(sound) {
+    const audio = new Audio(`/sounds/sound/${sound}.mp3`);
+    audio.play();
+}
