@@ -80,3 +80,17 @@ p {
 .microsoft-logo {
     height: 100px;
 }
+
+.error h1 {
+    font-size: 120px;
+}
+
+.error h3 {
+    font-size: 35px;
+    margin: 40px 0;
+}
+
+.error p {
+    font-size: 20px;
+    margin-bottom: 20px;
+}

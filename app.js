@@ -50,7 +50,7 @@ app.post('/joinRoom', function(req, res) {
     res.redirect(`/form/${requestedroomId}`);
 });
 
-// ---------------------- Room --------------------------
+// ---------------------- Room (form) --------------------------
 
 app.get('/form/:roomId', function(req, res) {
     res.render('form', { roomId: req.params.roomId });
@@ -77,24 +77,32 @@ app.post('/form/:roomId', function(req, res) {
     res.redirect(`/room/${req.params.roomId}`);
 });
 
+// ---------------------- Room --------------------------
+
 app.get('/room/:roomId', function(req, res) {
 
     const roomId = req.params.roomId;
 
-    if (counter >= 10) {
-        res.render('sorry', { roomId: roomId });
-    } else {
-        res.render('room', {
-            roomId: roomId,
-            userFName: users[users.length - 1].fname,
-            userLName: users[users.length - 1].lname,
-            userEmail: users[users.length - 1].email,
-            userPhone: users[users.length - 1].phone,
-            userName: users[users.length - 1].nname,
-        });
+    try {
+
+        if (counter >= 10) {
+            res.render('sorry', { roomId: roomId });
+        } else {
+            res.render('room', {
+                roomId: roomId,
+                userFName: users[users.length - 1].fname,
+                userLName: users[users.length - 1].lname,
+                userEmail: users[users.length - 1].email,
+                userPhone: users[users.length - 1].phone,
+                userName: users[users.length - 1].nname,
+            });
+        }
+    } catch (e) {
+        res.redirect(`/form/${req.params.roomId}`);
     }
 });
 
+// ---------------------- Connection --------------------------
 
 io.on('connection', socket => {
     socket.on('join-room', (roomId, userId, userName) => {
@@ -137,6 +145,17 @@ io.on('connection', socket => {
             socket.to(roomId).emit('user-disconnected', userId, userName, users);
         });
     });
+});
+
+// ---------------------- Error --------------------------
+
+app.get('/sorry', function(req, res) {
+    res.render('sorry');
+});
+
+app.get('*', function(req, res) {
+    // res.status(404).send('what???');
+    res.render('error');
 });
 
 server.listen(process.env.PORT || port, function() {
