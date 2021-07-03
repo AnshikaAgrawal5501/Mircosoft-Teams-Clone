@@ -5,7 +5,7 @@ const id = document.getElementById('id');
 const url = document.getElementById('url');
 
 id.value = copyText.value;
-url.value = `http://microsoft-teams-clone-5501.herokuapp.com/form/${copyText.value}`;
+url.value = `https://microsoft-teams-clone-5501.herokuapp.com/form/${copyText.value}`;
 
 cid.addEventListener('click', copyId);
 curl.addEventListener('click', copyUrl);
@@ -19,14 +19,6 @@ function copyId() {
 }
 
 function copyUrl() {
-
-    // copyText.value = `http://microsoft-teams-clone-5501.herokuapp.com/form/${copyText.value}`;
-    let val = `http://microsoft-teams-clone-5501.herokuapp.com/form/${copyText.value}`;
-
-    // console.log(copyText.value);
-
-    // copyText.select();
-    // copyText.setSelectionRange(0, 99999)
 
     console.log(url.value);
 
