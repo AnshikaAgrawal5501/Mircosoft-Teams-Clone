@@ -1,18 +1,46 @@
 <%- include('partials/header') -%>
+    <link rel="stylesheet" href="/css/create_room.css">
+
     <%- include('partials/header1') -%>
 
-        <form action="/joinRoom" method="POST">
+
+        <div class="col-6 text-right d-flex flex-column my-auto">
+            <div>
+                <h1>Join Room</h1>
+            </div>
+        </div>
+        </div>
+        </div>
+        </div>
+
+        <div class="container">
 
             <div class="row">
-                <div class="col">
-                    <input type="text" class="form-control" id="roomId" placeholder="Enter room Id" name="roomId">
+
+                <div class="col-md-6 my-auto join">
+
+                    <h3>
+                        Join the room with the room id shared with you to connect with your group.
+                    </h3>
+
+                    <form action="/joinRoom" method="POST">
+
+                        <input type="text" class="form-control" id="roomId" placeholder="Enter room Id" name="roomId">
+
+                        <button type="submit" class="btn btn-primary my-3">Join</button>
+                    </form>
+
                 </div>
-                <div class="col">
-                    <button type="submit" class="btn btn-primary">Join</button>
+
+                <div class="col-md-6">
+
+                    <img src="/images/join_room.jpg" alt="" class="img-fluid d-block mx-auto">
                 </div>
+
             </div>
 
+        </div>
 
-        </form>
+
 
         <%- include('partials/footer') -%>

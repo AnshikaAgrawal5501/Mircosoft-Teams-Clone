@@ -4,6 +4,11 @@ body {
 
 .jumbotron {
     padding: 2rem;
+    margin-bottom: 100px;
+}
+
+.header h1 {
+    font-size: 60px;
 }
 
 .logo {
@@ -42,7 +47,11 @@ body {
 }
 
 .main .row {
-    margin: 50px 0;
+    margin-bottom: 50px;
+}
+
+.row.screen-share {
+    margin-top: 50px;
 }
 
 h1 {

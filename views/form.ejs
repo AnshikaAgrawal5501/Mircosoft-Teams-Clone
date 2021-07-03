@@ -1,84 +1,75 @@
 <%- include('partials/header') -%>
+    <%- include('partials/header1') -%>
 
-    <div class="jumbotron jumbotron-fluid">
+        <div class="col-6 text-center d-flex flex-column my-auto">
+            <div>
+                <h4>Share your information with us so that people in the meeting can know about who you are and co-ordinate with you.</h4>
+            </div>
+        </div>
+        </div>
+        </div>
+        </div>
 
         <div class="container">
 
+
             <div class="row">
-                <div class="col-6 d-flex flex-column">
-                    <img src="/images/teams_logo.png" alt="" class="logo m-3">
-                    <p class="navbar-brand">Mircosoft Teams</p>
+
+                <div class="col-md-6">
+
+                    <img src="/images/form.jpg" alt="" class="img-fluid d-block mx-auto">
                 </div>
 
-                <div class="col-6 text-center my-auto">
-                    <div>
-                        <h4>Share your information with us so that people in the meeting can know about who you are and co-ordinate with you.</h4>
-                    </div>
+                <div class="col-md-6 d-flex flex-column my-auto" style="border-left: 2px solid grey; padding-left: 50px;">
+
+                    <form action="/form/<%= roomId %>" method="post">
+                        <div class="form-row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="fname">First Name <span style="color: red;">*</span></label>
+                                    <input type="text" class="form-control" id="fname" name="fname" required>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="lname">Last Name</label>
+                                    <input type="text" class="form-control" id="lname" name="lname">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="phone">Contact No.</label>
+                                    <input type="tel" class="form-control" id="phone" name="phone">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="nname">Nickname (for chatting)</label>
+                                    <input type="text" class="form-control" id="nname" name="nname">
+                                </div>
+                            </div>
+                        </div>
+
+                        <input type="reset" value="Reset" class="btn btn-success" style="width: 120px;">
+                        <button type="submit" class="btn btn-danger" style="width: 120px;">Submit</button>
+                    </form>
+
                 </div>
             </div>
-        </div>
-    </div>
 
-    <div class="container">
-
-
-        <div class="row" style="margin: 100px 0;">
-
-            <div class="col-md-6">
-
-                <img src="/images/form.jpg" alt="" class="img-fluid d-block mx-auto">
-            </div>
-
-            <div class="col-md-6 d-flex flex-column my-auto" style="border-left: 2px solid grey; padding-left: 50px;">
-
-                <form action="/form/<%= roomId %>" method="post">
-                    <div class="form-row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="fname">First Name <span style="color: red;">*</span></label>
-                                <input type="text" class="form-control" id="fname" name="fname" required>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="lname">Last Name</label>
-                                <input type="text" class="form-control" id="lname" name="lname">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" class="form-control" id="email" name="email">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="phone">Contact No.</label>
-                                <input type="tel" class="form-control" id="phone" name="phone">
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="nname">Nickname (for chatting)</label>
-                                <input type="text" class="form-control" id="nname" name="nname">
-                            </div>
-                        </div>
-                    </div>
-
-                    <input type="reset" value="Reset" class="btn btn-success" style="width: 120px;">
-                    <button type="submit" class="btn btn-danger" style="width: 120px;">Submit</button>
-                </form>
-
-            </div>
         </div>
 
-    </div>
+        </div>
 
-    </div>
-
-    <%- include('partials/footer') -%>
+        <%- include('partials/footer') -%>
