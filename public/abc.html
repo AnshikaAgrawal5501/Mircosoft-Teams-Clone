@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Title and Icon -->
+
+    <title>Microsoft Teams</title>
+    <link rel="shortcut icon" href="/images/teams_logo.png">
+
+    <!-- StyleSheets -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.css" integrity="sha512-vEia6TQGr3FqC6h55/NdU3QSM5XR6HSl5fW71QTKrgeER98LIMGwymBVM867C1XHIkYD9nMTfWK2A0xcodKHNA==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+
+    <!-- Bootstrap scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Fontawesome icons -->
+
+    <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" data-auto-replace-svg="nest"></script>
+
+</head>
+
+<style>
+    canvas {
+        /* width: 500px;
+        height: 500px; */
+        background-color: rgb(255, 255, 255);
+        border: 1px solid black;
+    }
+</style>
+
+<body>
+
+    <canvas id="canva"></canvas>
+
+</body>
+
+<script>
+    const canvas = document.getElementById('canva');
+    const ctx = canvas.getContext('2d');
+
+    // canvas.width = window.innerWidth;
+    // canvas.height = window.innerHeight;
+
+    canvas.width = screen.availWidth;
+    canvas.height = screen.availHeight;
+
+    ctx.strokeStyle = 'black';
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    ctx.lineWidth = 5;
+
+    console.log(ctx)
+
+    let painting = false;
+    let lastX = 0;
+    let lastY = 0;
+
+    function startPosition(e) {
+        painting = true;
+        lastX = e.offsetX;
+        lastY = e.offsetY;
+    }
+
+    function finishPosition(e) {
+        painting = false;
+    }
+
+    canvas.addEventListener('mousedown', startPosition);
+    canvas.addEventListener('mouseup', finishPosition);
+    canvas.addEventListener('mouseout', finishPosition);
+    canvas.addEventListener('mousemove', draw);
+
+    function draw(e) {
+
+        if (!painting) return;
+
+        console.log(e);
+
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+
+        ctx.lineTo(e.offsetX, e.offsetY);
+        ctx.stroke();
+
+        lastX = e.offsetX;
+        lastY = e.offsetY;
+    }
+</script>
+
+</html>

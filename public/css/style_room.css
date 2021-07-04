@@ -227,3 +227,8 @@ a {
     left: 10px;
     z-index: 2;
 }
+
+canvas {
+    background-color: white;
+    border-radius: 10px;
+}

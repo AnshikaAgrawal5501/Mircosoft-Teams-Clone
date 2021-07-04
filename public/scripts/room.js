@@ -228,15 +228,17 @@ function connectToNewUser(userId, stream, users, flag = false) {
 
 function removeVideo(userId) {
     let index = 0;
+
     for (let i = 0; i < videoGrid1.childNodes.length; i++) {
         let tempId = videoGrid1.childNodes[i].getAttribute('id');
+
         if (tempId === userId) {
             index = i;
+            videoGrid1.removeChild(videoGrid1.childNodes[index]);
         } else {
             videoGrid1.childNodes[i].style.display = 'block';
         }
     }
-    videoGrid1.removeChild(videoGrid1.childNodes[index]);
 
     gridCheck();
 }
@@ -588,12 +590,125 @@ function notifications() {
     }
 }
 
-setInterval(function() {
-    // gridCheck();
-    notifications();
-}, 100);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////   Notifications   //////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+
 
 function sound(sound) {
     const audio = new Audio(`/sounds/sound/${sound}.mp3`);
     audio.play();
+}
+
+setInterval(function() {
+    notifications();
+}, 100);
+
+
+/////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////   White-Board    //////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+
+
+function whiteBoard() {
+
+    const div = document.createElement('div');
+    div.style.padding = '5px';
+    div.setAttribute('id', 'canvas');
+
+    const div1 = document.createElement('div');
+    div1.classList.add('box-position');
+
+    div1.innerHTML = `<div style="position: absolute; right: 10px; z-index: 2;" id="" onclick="cross()">
+    <i class="fas fa-times"></i>
+        </div>`;
+
+    const canvas = document.createElement('canvas');
+
+    div1.appendChild(canvas);
+    div.appendChild(div1);
+
+    for (let i = 0; i < videoGrid1.childNodes.length; i++) {
+        videoGrid1.childNodes[i].style.display = 'none';
+    }
+
+    div.classList.add('resize');
+
+    videoGrid1.appendChild(div);
+
+
+    const ctx = canvas.getContext('2d');
+
+    let painting = false;
+    let lastX = 0;
+    let lastY = 0;
+
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+
+    ctx.strokeStyle = 'black';
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    ctx.lineWidth = 5;
+
+    console.log(ctx)
+
+    function startPosition(e) {
+        painting = true;
+        lastX = e.offsetX;
+        lastY = e.offsetY;
+    }
+
+    function finishPosition(e) {
+        painting = false;
+    }
+
+    function draw(e) {
+
+        if (!painting) return;
+
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+
+        ctx.lineTo(e.offsetX, e.offsetY);
+        ctx.stroke();
+
+        socket.emit('draw', lastX, lastY, e.offsetX, e.offsetY);
+
+        lastX = e.offsetX;
+        lastY = e.offsetY;
+    }
+
+    canvas.addEventListener('mousedown', startPosition);
+    canvas.addEventListener('mouseup', finishPosition);
+    canvas.addEventListener('mouseout', finishPosition);
+    canvas.addEventListener('mousemove', draw);
+}
+
+socket.on('drawing', (lastX, lastY, offsetX, offsetY) => {
+
+    const canvas = document.querySelector('canvas');
+    const ctx = canvas.getContext('2d');
+
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY);
+
+    ctx.lineTo(offsetX, offsetY);
+    ctx.stroke();
+});
+
+function cross() {
+    for (let i = 0; i < videoGrid1.childNodes.length; i++) {
+        const tempId = videoGrid1.childNodes[i].getAttribute('id');
+
+        if (tempId !== 'canvas') {
+            videoGrid1.childNodes[i].style.display = 'block';
+        } else {
+            videoGrid1.removeChild(videoGrid1.childNodes[i]);
+        }
+    }
 }
