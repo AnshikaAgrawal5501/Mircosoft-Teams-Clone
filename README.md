@@ -13,8 +13,7 @@ Microsoft teams clone is a video calling web application that allows users to co
 - Audio/Video choice options.
 - Chatting with peers.
 - Participants lists present.
-- White board for fun.
-- 
+- White board for scribbling.
 
 ## Project Motivation
 
@@ -25,6 +24,8 @@ The project has been a part of the Microsoft Engage 2021 Mentorship program in w
 - Javascript
 - Node.js
 - Express.js
+- PeerJS
+- UUID
 
 ## Getting Started
 
@@ -62,7 +63,7 @@ To start with the project run the command and go to http://localhost:3000
 ```bash
 node app.js
 ```
-<br>
+### Host
 
 - Click on the create meeting button.
 <br><br>
@@ -81,5 +82,15 @@ node app.js
 <br><br>
 ![Page4](public/images/Page4.png)
 
-- Go to the home page and click on the join meeting button.
-- Paste the rrom id here and join the meeting. Fill the form as before.
+### Client
+
+- On the home page click on the join meeting button.
+![Page5](public/images/Page5.png)
+
+- Paste the shared room id here and join the meeting. 
+<br><br>
+![Page6](public/images/Page6.png)
+
+- Fill the form as before.
+
+67ce3999-255f-4461-b7f2-66c5e081c747
