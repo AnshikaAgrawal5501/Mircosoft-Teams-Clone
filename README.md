@@ -59,7 +59,7 @@ npm install
 
 ## Usage
 
-To start with the project run the command and go to http://localhost:3000
+To start with the project run the command and go to http://localhost:3500
 ```bash
 node app.js
 ```
@@ -67,29 +67,29 @@ node app.js
 
 - Click on the create meeting button.
 <br><br>
-<img src="public/images/Page1.png" alt="Page-1" width="250"/>
+<img src="public/images/Page1.png" alt="Page-1" width="350"/>
 
 - Click on the share icon to share the room id or url.
 <br><br>
-<img src="public/images/Page2.png" alt="Page-2" width="250"/>
+<img src="public/images/Page2.png" alt="Page-2" width="350"/>
 
 - Select an option of either copying room id or url.
 <br><br>
-<img src="public/images/Page3.png" alt="Page-3" width="250"/>
+<img src="public/images/Page3.png" alt="Page-3" width="350"/>
 
 - Close the box and join the meeting.
 - Fill the information so that people in the meeting will know you by your name.
 <br><br>
-<img src="public/images/Page4.png" alt="Page-4" width="250"/>
+<img src="public/images/Page4.png" alt="Page-4" width="350"/>
 
 ### Client
 
 - On the home page click on the join meeting button.
 <br><br>
-<img src="public/images/Page5.png" alt="Page-5" width="250"/>
+<img src="public/images/Page5.png" alt="Page-5" width="350"/>
 
 - Paste the shared room id here and join the meeting. 
 <br><br>
-<img src="public/images/Page6.png" alt="Page-6" width="250"/>
+<img src="public/images/Page6.png" alt="Page-6" width="350"/>
 
 - Fill the form as before.
