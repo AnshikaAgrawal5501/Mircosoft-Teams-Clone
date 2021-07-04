@@ -146,8 +146,8 @@ io.on('connection', socket => {
             socket.broadcast.to(roomId).emit('stop-screen-sharing', userId, users);
         });
 
-        socket.on('draw', (lastX, lastY, offsetX, offsetY) => {
-            socket.broadcast.to(roomId).emit('drawing', lastX, lastY, offsetX, offsetY);
+        socket.on('draw', (lastX, lastY, offsetX, offsetY, pencilColor, pencilWidth) => {
+            socket.broadcast.to(roomId).emit('drawing', lastX, lastY, offsetX, offsetY, pencilColor, pencilWidth);
         });
 
         socket.on('disconnect', () => {

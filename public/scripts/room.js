@@ -285,7 +285,7 @@ function addVideoStream(grid, stream, color, userId) {
         div.setAttribute('id', `c${userId}`);
         div1.classList.add('box-position');
 
-        div1.innerHTML = `<div style="position: absolute; right: 10px; z-index: 2;" id="${userId}" onclick="resize(id)">
+        div1.innerHTML = `<div style="position: absolute; right: 10px; z-index: 2; color:rgb(255,255,255,0.5);" id="${userId}" onclick="resize(id)">
         <i class="fas fa-expand"></i>
         </div>`;
 
@@ -611,6 +611,9 @@ setInterval(function() {
 /////////////////////////////////////////////////////////////////////////////////////////
 
 
+let pencilColor = 'black';
+let pencilWidth = 5;
+
 function whiteBoard() {
 
     const div = document.createElement('div');
@@ -620,8 +623,15 @@ function whiteBoard() {
     const div1 = document.createElement('div');
     div1.classList.add('box-position');
 
+
     div1.innerHTML = `<div style="position: absolute; right: 10px; z-index: 2;" id="" onclick="cross()">
     <i class="fas fa-times"></i>
+        </div>
+        <div style="position: absolute; right: 10px; top:50px; z-index: 2;" id="" onclick="pencil()">
+        <i class="fas fa-pencil-alt"></i>
+        </div>
+        <div style="position: absolute; right: 10px; top:100px; z-index: 2;" id="" onclick="eraser()">
+        <i class="fas fa-eraser"></i>
         </div>`;
 
     const canvas = document.createElement('canvas');
@@ -650,10 +660,9 @@ function whiteBoard() {
     canvas.width = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
 
-    ctx.strokeStyle = 'black';
     ctx.lineJoin = 'round';
     ctx.lineCap = 'round';
-    ctx.lineWidth = 5;
+
 
     console.log(ctx)
 
@@ -671,13 +680,16 @@ function whiteBoard() {
 
         if (!painting) return;
 
+        ctx.strokeStyle = pencilColor;
+        ctx.lineWidth = pencilWidth;
+
         ctx.beginPath();
         ctx.moveTo(lastX, lastY);
 
         ctx.lineTo(e.offsetX, e.offsetY);
         ctx.stroke();
 
-        socket.emit('draw', lastX, lastY, e.offsetX, e.offsetY);
+        socket.emit('draw', lastX, lastY, e.offsetX, e.offsetY, pencilColor, pencilWidth);
 
         lastX = e.offsetX;
         lastY = e.offsetY;
@@ -689,10 +701,13 @@ function whiteBoard() {
     canvas.addEventListener('mousemove', draw);
 }
 
-socket.on('drawing', (lastX, lastY, offsetX, offsetY) => {
+socket.on('drawing', (lastX, lastY, offsetX, offsetY, pencilColor, pencilWidth) => {
 
     const canvas = document.querySelector('canvas');
     const ctx = canvas.getContext('2d');
+
+    ctx.strokeStyle = pencilColor;
+    ctx.lineWidth = pencilWidth;
 
     ctx.beginPath();
     ctx.moveTo(lastX, lastY);
@@ -711,4 +726,14 @@ function cross() {
             videoGrid1.removeChild(videoGrid1.childNodes[i]);
         }
     }
+}
+
+function pencil() {
+    pencilColor = 'black';
+    pencilWidth = 5;
+}
+
+function eraser() {
+    pencilColor = 'white';
+    pencilWidth = 10;
 }
