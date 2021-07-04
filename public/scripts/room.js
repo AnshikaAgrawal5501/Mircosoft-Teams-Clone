@@ -18,6 +18,8 @@ let myVideoStream;
 
 let callList = [];
 
+let isWhiteBoard = false;
+
 const gridOfVideos = [{
         height: '100%',
         width: '100%'
@@ -312,6 +314,10 @@ function addVideoStream(grid, stream, color, userId) {
             div.appendChild(div1);
             div1.appendChild(video);
             grid.append(div);
+        }
+
+        if (isWhiteBoard) {
+            div.style.display = 'hidden';
         }
     }
 
@@ -616,6 +622,8 @@ let pencilWidth = 5;
 
 function whiteBoard() {
 
+    isWhiteBoard = true;
+
     const div = document.createElement('div');
     div.style.padding = '5px';
     div.setAttribute('id', 'canvas');
@@ -717,6 +725,8 @@ socket.on('drawing', (lastX, lastY, offsetX, offsetY, pencilColor, pencilWidth) 
 });
 
 function cross() {
+    isWhiteBoard = false;
+
     for (let i = 0; i < videoGrid1.childNodes.length; i++) {
         const tempId = videoGrid1.childNodes[i].getAttribute('id');
 
