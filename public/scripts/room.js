@@ -239,7 +239,9 @@ function removeVideo(userId) {
             videoGrid1.removeChild(videoGrid1.childNodes[index]);
             i--;
         } else {
-            videoGrid1.childNodes[i].style.display = 'block';
+            if (!isWhiteBoard) {
+                videoGrid1.childNodes[i].style.display = 'block';
+            }
         }
     }
 
@@ -604,7 +606,7 @@ function notifications() {
 
 
 function sound(sound) {
-    const audio = new Audio(`/sounds/sound/${sound}.mp3`);
+    const audio = new Audio(`/sounds/${sound}.mp3`);
     audio.play();
 }
 
