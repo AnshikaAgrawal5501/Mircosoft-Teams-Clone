@@ -7,13 +7,13 @@ Microsoft teams clone is a video calling web application that allows users to co
 
 ## Features Avaiable
 
-- Video calling with a group of maximum 10 people
+- Video calling with a group of maximum 10 people.
 - Screen sharing with all 10 members can share their respective screens at the same time.
 - Full screen size of any particular video.
 - Audio/Video choice options.
 - Chatting with peers.
 - Participants lists present.
-- 
+- White board for fun.
 - 
 
 ## Project Motivation
