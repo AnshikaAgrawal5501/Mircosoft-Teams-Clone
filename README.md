@@ -85,6 +85,7 @@ node app.js
 ### Client
 
 - On the home page click on the join meeting button.
+<br><br>
 ![Page5](public/images/Page5.png)
 
 - Paste the shared room id here and join the meeting. 
@@ -92,5 +93,3 @@ node app.js
 ![Page6](public/images/Page6.png)
 
 - Fill the form as before.
-
-67ce3999-255f-4461-b7f2-66c5e081c747
