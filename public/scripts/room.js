@@ -237,6 +237,7 @@ function removeVideo(userId) {
         if (tempId === userId) {
             index = i;
             videoGrid1.removeChild(videoGrid1.childNodes[index]);
+            i--;
         } else {
             videoGrid1.childNodes[i].style.display = 'block';
         }
@@ -317,7 +318,7 @@ function addVideoStream(grid, stream, color, userId) {
         }
 
         if (isWhiteBoard) {
-            div.style.display = 'hidden';
+            div.style.display = 'none';
         }
     }
 
@@ -727,15 +728,20 @@ socket.on('drawing', (lastX, lastY, offsetX, offsetY, pencilColor, pencilWidth) 
 function cross() {
     isWhiteBoard = false;
 
+    console.log(videoGrid1.childNodes)
+
     for (let i = 0; i < videoGrid1.childNodes.length; i++) {
         const tempId = videoGrid1.childNodes[i].getAttribute('id');
-
+        console.log(videoGrid1.childNodes[i])
         if (tempId !== 'canvas') {
             videoGrid1.childNodes[i].style.display = 'block';
         } else {
             videoGrid1.removeChild(videoGrid1.childNodes[i]);
+            i--;
         }
     }
+
+    gridCheck();
 }
 
 function pencil() {
