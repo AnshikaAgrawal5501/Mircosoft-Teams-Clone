@@ -3,7 +3,6 @@
 Microsoft teams clone is a video calling web application that allows users to connect with people from anywhere.
 <br>
 [Project link](https://microsoft-teams-clone-5501.herokuapp.com/)
-<br><br>
 
 ## Features Avaiable
 
@@ -93,3 +92,7 @@ node app.js
 <img src="public/images/Page6.png" alt="Page-6" width="350"/>
 
 - Fill the form as before.
+
+## Support
+
+Do support and give a star :star:
