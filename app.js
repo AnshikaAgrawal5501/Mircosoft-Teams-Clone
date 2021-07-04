@@ -171,9 +171,9 @@ io.on('connection', socket => {
 
 // ---------------------- Error --------------------------
 
-// app.get('/sorry', function(req, res) {
-//     res.render('sorry');
-// });
+app.get('/sorry', function(req, res) {
+    res.render('sorry');
+});
 
 app.get('*', function(req, res) {
     res.render('error');
