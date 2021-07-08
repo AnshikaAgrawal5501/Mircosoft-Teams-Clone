@@ -58,7 +58,7 @@ npm install
 
 ## Usage
 
-To start with the project run the command and go to http://localhost:3500
+To start with the project run the command and go to http://localhost:3000
 ```bash
 node app.js
 ```

@@ -72,7 +72,7 @@ app.post('/form/:roomId', function(req, res) {
     let flag = false;
 
     for (let i = 0; i < users.length; i++) {
-        if (users[i].fname === obj.fname && users[i].nname === obj.nname) {
+        if (users[i].fname === obj.fname && (users[i].nname === obj.nname || users[i].email === obj.email)) {
             flag = true;
             console.log("user found with same name")
             break;

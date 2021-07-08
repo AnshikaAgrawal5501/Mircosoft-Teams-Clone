@@ -4,27 +4,25 @@
 
 .share,
 #copyId,
-#copyUrl,
-#send {
+#copyUrl {
     position: absolute;
     top: 0;
-    right: 5px;
+    right: 0;
     width: min-content;
     color: #9fa4a8;
     background-color: white;
     border-top-color: #ced4da;
     border-bottom-color: #ced4da;
+    border-right-color: #ced4da;
 }
 
 .share:hover,
 #copyId:hover,
-#copyUrl:hover,
-#send:hover {
+#copyUrl:hover {
     color: #53616e;
 }
 
-.share:focus,
-.send:focus {
+.share:focus {
     box-shadow: none !important;
 }
 

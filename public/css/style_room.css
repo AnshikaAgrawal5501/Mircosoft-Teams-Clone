@@ -1,5 +1,4 @@
 .content {
-    /* width: 100vw; */
     height: 100vh;
     margin: 0;
 }
@@ -19,10 +18,6 @@
     width: 100%;
 }
 
-.fa-phone-alt {
-    transform: rotate(135deg);
-}
-
 video {
     height: 100%;
 }
@@ -31,66 +26,40 @@ video {
     width: 100%;
 }
 
+
+/*-----------  nav-bar icons  --------------*/
+
+.navbar {
+    height: 8vh;
+    box-sizing: border-box;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.navbar-nav .nav-item {
+    margin: 0 5px;
+}
+
+.navbar-nav .nav-item .nav-link {
+    font-size: 17.5px !important;
+}
+
+.fa-phone-alt {
+    transform: rotate(135deg);
+    margin-left: 10px;
+}
+
 .screen-share-active {
     color: rgba(255, 255, 255) !important;
 }
+
+
+/*-----------  aside section  --------------*/
 
 #aside {
     padding-top: 10px;
     padding-bottom: 10px;
 }
-
-
-/* .form-group {
-    position: relative;
-}
-
-.share {
-    position: absolute;
-    top: 0;
-    right: 5px;
-    width: min-content;
-    color: #9fa4a8;
-    background-color: white;
-    border-top-color: #ced4da;
-    border-bottom-color: #ced4da;
-}
-
-.share:hover {
-    color: #53616e;
-}
-
-.share:focus {
-    box-shadow: none !important;
-} */
-
-.chat-area,
-.user-list,
-.file-area {
-    height: 85vh;
-    padding: 0;
-}
-
-
-/* .form-group {
-    position: relative;
-}
-
-#send {
-    position: absolute;
-    top: 0;
-    right: 5px;
-    width: min-content;
-    color: #9fa4a8;
-}
-
-#send:hover {
-    color: #53616e;
-}
-
-#send:focus {
-    box-shadow: none !important;
-} */
 
 .nav-tabs {
     padding-top: 5px;
@@ -123,32 +92,11 @@ video {
     color: #4f58ca !important;
 }
 
-
-/* width */
-
-::-webkit-scrollbar {
-    width: 2px;
-}
-
-
-/* Track */
-
- ::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-
-/* Handle */
-
- ::-webkit-scrollbar-thumb {
-    background: rgb(173, 168, 168);
-}
-
-.navbar {
-    height: 8vh;
-    box-sizing: border-box;
-    padding-top: 10px;
-    padding-bottom: 10px;
+.chat-area,
+.user-list,
+.file-area {
+    height: 85vh;
+    padding: 0;
 }
 
 .chat-list,
@@ -159,6 +107,9 @@ video {
     overflow-y: scroll;
     height: 74vh;
 }
+
+
+/*-----------  chat box  --------------*/
 
 .chat-box {
     margin: 0 3px 5px;
@@ -186,9 +137,17 @@ video {
     word-break: break-word;
 }
 
+.emojioneemoji {
+    height: 17.5px;
+    vertical-align: top;
+}
+
 #output {
     width: 100%;
 }
+
+
+/*-----------  participant list  --------------*/
 
 a {
     text-decoration: none !important;
@@ -203,6 +162,9 @@ a {
     left: 75px !important;
 }
 
+
+/*-----------  full-screen video  --------------*/
+
 .box-position {
     box-sizing: border-box;
     position: relative;
@@ -210,8 +172,6 @@ a {
     width: 100%;
     display: flex;
     justify-content: center;
-    /* background-color: #f7b8bd; */
-    /* border: 2px solid #ff4151; */
     border: 2px solid #7c84ec;
     border-radius: 10px;
 }
@@ -229,7 +189,47 @@ a {
     color: rgb(255, 255, 255, 0.5);
 }
 
+
+/*-----------  white-board  --------------*/
+
 canvas {
     background-color: white;
     border-radius: 10px;
+}
+
+.white-board-icons {
+    position: absolute;
+    right: 10px;
+    z-index: 2;
+}
+
+.colour {
+    width: 20px;
+    height: 20px;
+    border: 1px solid black;
+    border-radius: 50%;
+}
+
+
+/*-----------  Scrollbar  --------------*/
+
+
+/* width */
+
+::-webkit-scrollbar {
+    width: 2px;
+}
+
+
+/* Track */
+
+ ::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+
+/* Handle */
+
+ ::-webkit-scrollbar-thumb {
+    background: rgb(173, 168, 168);
 }
