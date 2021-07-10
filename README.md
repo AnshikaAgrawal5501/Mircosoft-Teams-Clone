@@ -6,13 +6,15 @@ Microsoft teams clone is a video calling web application that allows users to co
 
 ## Features Avaiable
 
-- Video calling with a group of maximum 10 people.
-- Screen sharing with all 10 members can share their respective screens at the same time.
-- Full screen size of any particular video.
-- Audio/Video choice options.
-- Chatting with peers.
-- Participants lists present.
+- Video conversation among peers.
+- Has a capacity of maximum 10 people.
+- Audio and Video choice.
+- Chat with peers and express yourself with emojis.
+- Screen sharing.
+- All can share their respective screens at the same time.
 - White board for scribbling.
+- While having many people, can also view only one at full screen size.
+
 
 ## Project Motivation
 
@@ -24,7 +26,6 @@ The project has been a part of the Microsoft Engage 2021 Mentorship program in w
 - Node.js
 - Express.js
 - PeerJS
-- UUID
 
 ## Getting Started
 
