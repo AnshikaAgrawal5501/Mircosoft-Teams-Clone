@@ -70,38 +70,24 @@ video {
     font-size: 15px;
 }
 
-.file-list ul {
-    margin: 20px ppx;
-    padding: 0;
-    list-style-type: none;
-    overflow-y: scroll;
-}
-
-.file-list ul {
-    height: 74vh;
-}
-
 .user-list ul {
     padding: 0 5px;
 }
 
-.user-list ul li a,
-.file-list ul li {
+.user-list ul li a {
     padding: 5px 0 0;
     list-style-type: none;
     color: #4f58ca !important;
 }
 
 .chat-area,
-.user-list,
-.file-area {
+.user-list {
     height: 85vh;
     padding: 0;
 }
 
 .chat-list,
-.user-list,
-.file-list {
+.user-list {
     margin: 20px 0;
     padding: 0;
     overflow-y: scroll;
@@ -140,10 +126,6 @@ video {
 .emojioneemoji {
     height: 17.5px;
     vertical-align: top;
-}
-
-#output {
-    width: 100%;
 }
 
 
