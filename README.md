@@ -3,22 +3,24 @@
 Microsoft teams clone is a video calling web application that allows users to connect with people from anywhere.
 <br>
 [Project link](https://microsoft-teams-clone-5501.herokuapp.com/)
+<br>
+[Video link](https://www.youtube.com/watch?v=MWRp-mmJBzg)
 
-## Features Avaiable
+## Features Available
 
 - Video conversation among peers.
-- Has a capacity of maximum 10 people.
+- Has a capacity of a maximum of 10 people.
 - Audio and Video choice.
 - Chat with peers and express yourself with emojis.
 - Screen sharing.
 - All can share their respective screens at the same time.
 - White board for scribbling.
-- While having many people, can also view only one at full screen size.
+- While having many people, can also view only one at full-screen size.
 
 
 ## Project Motivation
 
-The project has been a part of the Microsoft Engage 2021 Mentorship program in which the mentees are asked to build the Microsoft Teams Clone with the mandatory functionality - a minimum of two participants should be able connect with each other and have a video conversation.
+The project has been a part of the Microsoft Engage 2021 Mentorship program in which the mentees are asked to build the Microsoft Teams Clone with the mandatory functionality - a minimum of two participants should be able to connect with each other and have a video conversation.
 
 ## Tech Stack
 - Bootstrap
