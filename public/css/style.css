@@ -11,6 +11,9 @@ body {
     font-size: 60px;
 }
 
+
+/* teams logo */
+
 .logo {
     height: 100px;
     width: 100px;
@@ -91,9 +94,15 @@ p {
     color: black;
 }
 
+
+/* microsoft logo */
+
 .microsoft-logo {
     height: 100px;
 }
+
+
+/* for error pages */
 
 .error h1 {
     font-size: 120px;

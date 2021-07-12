@@ -71,6 +71,8 @@ app.post('/form/:roomId', function(req, res) {
 
     let flag = false;
 
+    //------- user check
+
     for (let i = 0; i < users.length; i++) {
         if (users[i].fname === obj.fname && (users[i].nname === obj.nname || users[i].email === obj.email)) {
             flag = true;
@@ -78,8 +80,6 @@ app.post('/form/:roomId', function(req, res) {
             break;
         }
     }
-
-    console.log("line 86", !flag)
 
     if (!flag) {
         users.push(obj);
@@ -104,7 +104,7 @@ app.get('/room/:roomId', function(req, res) {
     try {
 
         if (counter >= 10) {
-            res.render('sorry', { roomId: roomId });
+            res.render('capacityFull', { roomId: roomId });
         } else {
             res.render('room', {
                 roomId: roomId,
@@ -172,7 +172,7 @@ io.on('connection', socket => {
 // ---------------------- Error --------------------------
 
 app.get('*', function(req, res) {
-    res.render('error');
+    res.render('error404');
 });
 
 server.listen(process.env.PORT || port, function() {

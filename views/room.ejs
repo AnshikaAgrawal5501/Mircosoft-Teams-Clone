@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="/css/style_room.css">
     <link rel="stylesheet" href="/css/create_room.css">
 
+    <!-- Emojisonearea stylesheet -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.css" integrity="sha512-vEia6TQGr3FqC6h55/NdU3QSM5XR6HSl5fW71QTKrgeER98LIMGwymBVM867C1XHIkYD9nMTfWK2A0xcodKHNA==" crossorigin="anonymous" referrerpolicy="no-referrer"
     />
 
@@ -27,7 +28,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <!-- Fontawesome icons -->
-
     <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" data-auto-replace-svg="nest"></script>
 
     <script src="/socket.io/socket.io.js"></script>
@@ -49,8 +49,14 @@
 
         <div class="col-10 d-flex flex-column justify-content-between" id="main">
 
+            <!-- Other peer's video grid -->
             <div id="video-grid-1" class="d-flex justify-content-center align-items-center flex-wrap"></div>
+
+            <!-- Self video grid -->
             <div id="video-grid-2"></div>
+
+
+            <!-- Meeting Options -->
 
             <nav class="navbar navbar-expand-sm bg-dark navbar-dark ">
 
@@ -83,6 +89,8 @@
 
         <div id="aside" class="col-2">
 
+            <!-- Room id share -->
+
             <div class="form-group">
                 <input type="text" class="form-control" id="roomId" value="<%= roomId %>">
 
@@ -90,6 +98,8 @@
                 <i class="fas fa-share-alt"></i>
               </button>
             </div>
+
+            <!-- Navigation bar -->
 
             <ul class="nav nav-tabs">
                 <li class="nav-item">
@@ -101,23 +111,32 @@
             </ul>
 
             <!-- Tab panes -->
+
             <div class="tab-content">
+
+                <!-- Chat section -->
 
                 <div class="tab-pane active" id="chat">
                     <div class="d-flex flex-column justify-content-end chat-area">
 
                         <div class="chat-list d-flex flex-column">
-                            <!-- <ul></ul> -->
+                            <!-- Chat will be visible here -->
                         </div>
+
+                        <!-- Message input -->
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="Type message" id="messageInput">
                         </div>
                     </div>
                 </div>
 
+                <!-- Participant lists -->
+
                 <div class="tab-pane fade" id="participants">
                     <div class="d-flex user-list">
-                        <ul></ul>
+                        <ul>
+                            <!-- Participants will be visible here -->
+                        </ul>
                     </div>
                 </div>
 
@@ -127,12 +146,12 @@
 
     </div>
 
-    <!-- The Modal -->
+    <!-- The Modal for room id share option -->
+
     <div class="modal fade" id="myModal">
         <div class="modal-dialog modal-md modal-dialog-centered">
             <div class="modal-content">
 
-                <!-- Modal body -->
                 <div class="modal-body">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <div class="p-5">
@@ -158,6 +177,7 @@
     <!-- EmojioneArea script -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.js" integrity="sha512-hkvXFLlESjeYENO4CNi69z3A1puvONQV5Uh+G4TUDayZxSLyic5Kba9hhuiNLbHqdnKNMk2PxXKm0v7KDnWkYA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+    <!-- Room id share script -->
     <script src="/scripts/create_room.js"></script>
     <script src="/scripts/room.js"></script>
 
