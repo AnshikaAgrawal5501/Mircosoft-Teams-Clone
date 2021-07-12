@@ -40,7 +40,7 @@ git clone https://github.com/<your_user_name>/Microsoft-Teams_Clone.git
 
 3. Navigate to the cloned repository.
 ```bash
-cd Microsoft-Teams_Clone
+cd Microsoft-Teams-Clone
 ```
 
 ### Prerequisite
