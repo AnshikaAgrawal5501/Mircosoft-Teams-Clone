@@ -152,7 +152,7 @@ io.on('connection', socket => {
 
         socket.on('disconnect', () => {
 
-            let index = 0;
+            let index;
             for (let i = 0; i < counter; i++) {
                 if (users[i] !== undefined && users[i].id === userId) {
                     index = i;
@@ -160,8 +160,10 @@ io.on('connection', socket => {
                 }
             }
 
-            users.splice(index, 1);
-            counter--;
+            if (index !== undefined) {
+                users.splice(index, 1);
+                counter--;
+            }
 
             console.log(`${userName} disconnect`);
             socket.to(roomId).emit('user-disconnected', userId, userName, users);
