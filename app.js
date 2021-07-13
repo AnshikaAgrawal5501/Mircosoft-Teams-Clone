@@ -154,7 +154,7 @@ io.on('connection', socket => {
 
             let index = 0;
             for (let i = 0; i < counter; i++) {
-                if (users[i].id === userId) {
+                if (users[i] !== undefined && users[i].id === userId) {
                     index = i;
                     break;
                 }
