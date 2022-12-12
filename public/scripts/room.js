@@ -883,7 +883,7 @@ function yellow() {
     pencilWidth = 5;
 }
 
-// ---------------------------      use eraser        ----------------------------
+// ---------------------------     use eraser        ----------------------------
 
 function eraser() {
     pencilColor = 'white';
